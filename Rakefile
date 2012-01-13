@@ -16,7 +16,9 @@ end
 # and manage how it updates itself.
 desc "Update the build scripts"
 task :update do
-  puts "Update is not implemented yet."
+  sh 'git fetch origin'
+  sh 'git checkout master'
+  sh 'git merge --ff-only origin/master'
 end
 
 # This is also called from the build script in the Puppet Win Builder archive.
