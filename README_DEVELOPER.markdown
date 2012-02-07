@@ -4,6 +4,16 @@ To get a shared filesystem:
 
     net use Z: "\\vmware-host\Shared Folders" /persistent:yes
 
+# CRLF #
+
+In order to preserve CRLF line endings on batch files we recommend setting
+these two configuration values.  More information about the implications of
+doing so are available in the `git help config` man page.
+
+    # ~/.gitconfig
+    autocrlf = false
+    safecrlf = true
+
 # Common Issues #
 
 I seem to be getting this a lot downloading files:
@@ -18,3 +28,4 @@ from the response.content\_length here:
     161:    #   with_progress_bar(enable, file_name, size) { |progress| ... }
     171:    def with_progress_bar(enable, file_name, size) #:nodoc:
     254:            with_progress_bar options[:progress], path.split('/').last, response.content_length do |progress|
+

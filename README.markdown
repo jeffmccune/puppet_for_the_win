@@ -47,4 +47,19 @@ Win](https://github.com/puppetlabs/puppet_for_the_win) repository on Github.
 The `build.bat` build script _should_ work just fine with a build system like
 Jenkins.  If it does not, please let us know.
 
+# Building from Specific Repositories and Branches #
+
+The build system can be used to build a specific branch or repository of Puppet
+and Facter.  To customize the Git reference to build you can first specific the
+repositories to clone with the `windows:clone` task and then specify the
+reference to checkout using the `windows:checkout` task.
+
+This example builds a package given the latest development heads of the 2.7.x
+and 1.6.x integration branches.
+
+    rake clean
+    rake windows:clone[git://github.com/puppetlabs/puppet.git,git://github.com/puppetlabs/facter.git]
+    rake windows:checkout[origin/2.7.x,origin/1.6.x]
+    rake windows:build
+
 EOF
