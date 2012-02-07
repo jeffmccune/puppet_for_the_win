@@ -248,4 +248,11 @@ namespace :windows do
       sh 'msiexec /qn /l*v install.txt /i puppet.msi INSTALLDIR="C:\test\puppet"'
     end
   end
+
+  desc 'Uninstall the MSI using msiexec'
+  task :uninstall => [ 'pkg/puppet.msi', 'pkg' ] do |t|
+    Dir.chdir "pkg" do
+      sh 'msiexec /qn /l*v uninstall.txt /x puppet.msi'
+    end
+  end
 end
