@@ -55,6 +55,11 @@
       </Directory>
     </Directory>
 
+    <!-- It is possible to override WixVariable's on the command line using the
+         -d flag to light when Overridable="yes". -->
+    <!-- #12475 - Specify the license. -->
+    <WixVariable Id="WixUILicenseRtf" Value="conf\windows\stage\misc\LICENSE.rtf" Overridable="yes" />
+
     <!--
       The Features to install.  We're using ComponentGroupRef instead of ComponentRef since we're
       generating the ruby wxs file using heat
@@ -64,6 +69,7 @@
       <ComponentGroupRef Id="puppet" />
       <ComponentGroupRef Id="facter" />
       <ComponentGroupRef Id="bin" />
+      <ComponentGroupRef Id="misc" />
       <!-- We may not need an etc directory out of the box.
       <ComponentGroupRef Id="etc" />
       -->
