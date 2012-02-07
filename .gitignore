@@ -1,5 +1,6 @@
+downloads/
 pkg/
-stagedir/
 tmp/
 wix/fragments/
 *.wixobj
+stagedir/
