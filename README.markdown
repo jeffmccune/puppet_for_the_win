@@ -62,4 +62,23 @@ and 1.6.x integration branches.
     rake windows:checkout[origin/2.7.x,origin/1.6.x]
     rake windows:build
 
+# User Facing Customizations #
+
+## Installation Directory GUI ##
+
+The installation directory is specified in the installer GUI as:
+
+![Puppet Install Directory UI](http://links.puppetlabs.com/ftw_installdir.png)
+
+## Installation Directory CLI ##
+
+The command line installation UX is implemented using the public `INSTALLDIR`
+property.
+
+The installation directory may be specified on the command line by passing the
+property.  This example logs verbosely to the `install.txt` file and performs a
+silent installation to `C:\test\puppet` which is not the default.
+
+    msiexec /qn /l*v install.txt /i puppet.msi INSTALLDIR="C:\test\puppet"
+
 EOF

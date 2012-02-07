@@ -24,7 +24,17 @@
       Description="$(var.OurProductName) Installer"
       Comments="http://www.puppetlabs.com/"
       Compressed="yes"
-    />
+      />
+
+    <!-- Note, this UI element must come _after_ the Package element -->
+    <UI>
+      <!-- (#12473) Installation Directory Dialog -->
+      <UIRef Id="WixUI_InstallDir"/>
+      <!-- To use WixUI_InstallDir, you must set a property named
+         WIXUI_INSTALLDIR with a value of the ID of the directory you want the
+         user to be able to specify the location of. -->
+      <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+    </UI>
 
     <Media Id="1"
       Cabinet="$(var.OurProductNameWord).cab"

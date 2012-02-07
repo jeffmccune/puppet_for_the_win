@@ -22,7 +22,7 @@ TOPDIR=File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
 # Produce a wixobj from a wxs file.
 def candle(wxs_file, basedir)
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
-    sh "candle -dStageDir=#{basedir} #{File.basename(wxs_file)}"
+    sh "candle -ext WixUIExtension -dStageDir=#{basedir} #{File.basename(wxs_file)}"
   end
 end
 
@@ -239,6 +239,6 @@ namespace :windows do
 
   ####### REVISIT
   file 'pkg/puppet.msi' => WIXOBJS do |t|
-    sh "light #{t.prerequisites.join(' ')} -out #{t.name}"
+    sh "light -ext WixUIExtension -cultures:en-us #{t.prerequisites.join(' ')} -out #{t.name}"
   end
 end
