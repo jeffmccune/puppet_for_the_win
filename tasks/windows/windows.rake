@@ -241,4 +241,18 @@ namespace :windows do
   file 'pkg/puppet.msi' => WIXOBJS do |t|
     sh "light -ext WixUIExtension -cultures:en-us #{t.prerequisites.join(' ')} -out #{t.name}"
   end
+
+  desc 'Install the MSI using msiexec'
+  task :install => [ 'pkg/puppet.msi', 'pkg' ] do |t|
+    Dir.chdir "pkg" do
+      sh 'msiexec /qn /l*v install.txt /i puppet.msi INSTALLDIR="C:\test\puppet"'
+    end
+  end
+
+  desc 'Uninstall the MSI using msiexec'
+  task :uninstall => [ 'pkg/puppet.msi', 'pkg' ] do |t|
+    Dir.chdir "pkg" do
+      sh 'msiexec /qn /l*v uninstall.txt /x puppet.msi'
+    end
+  end
 end
