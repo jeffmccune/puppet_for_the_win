@@ -81,4 +81,12 @@ silent installation to `C:\test\puppet` which is not the default.
 
     msiexec /qn /l*v install.txt /i puppet.msi INSTALLDIR="C:\test\puppet"
 
+# Public Properties #
+
+All of these are optional and their default values are in parentheses.
+
+ * `INSTALLDIR` ("C:\puppetlabs")
+ * `PUPPET_AGENT_CERTNAME` ([ComputerName])
+ * `PUPPET_MASTER_HOSTNAME` ("puppet")
+
 EOF

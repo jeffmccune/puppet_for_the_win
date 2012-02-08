@@ -88,11 +88,23 @@
         Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
         Name="RememberedInstallDir" Type="raw" />
     </Property>
-    <Property Id="PUPPET_MASTER_HOSTNAME">
+    <!-- Note the static default value of "puppet".  This will be overriden by
+         the command line. -->
+    <Property Id="PUPPET_MASTER_HOSTNAME" Value="puppet">
       <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
       <RegistrySearch Id="RecallPuppetMasterHostname" Root="HKLM"
         Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
         Name="RememberedPuppetMasterHostname" Type="raw" />
+    </Property>
+    <!-- PUPPET_AGENT_CERTNAME is special because it has a default value of the
+         computer name.  The command line may override this using custom
+         actions with a condition that the associated CMDLINE_FOOBAR property
+         is set. -->
+    <Property Id="PUPPET_AGENT_CERTNAME" Value="[ComputerName]">
+      <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
+      <RegistrySearch Id="RecallPuppetAgentCertname" Root="HKLM"
+        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+        Name="RememberedPuppetAgentCertname" Type="raw" />
     </Property>
 
     <!-- Custom Actions to handle command line property values that override
@@ -115,6 +127,15 @@
       Property="PUPPET_MASTER_HOSTNAME"
       Value="[CMDLINE_PUPPET_MASTER_HOSTNAME]"
       Execute="firstSequence" />
+    <!-- PUPPET_AGENT_CERTNAME -->
+    <CustomAction Id="SaveCmdLinePuppetAgentCertname"
+      Property="[CMDLINE_PUPPET_AGENT_CERTNAME]"
+      Value="[PUPPET_AGENT_CERTNAME]"
+      Execute="firstSequence" />
+    <CustomAction Id="SetFromCmdLinePuppetAgentCertname"
+      Property="PUPPET_AGENT_CERTNAME"
+      Value="[CMDLINE_PUPPET_AGENT_CERTNAME]"
+      Execute="firstSequence" />
 
     <!-- First, save off properties specified on the command line Second,
          restore the properties set by the command line overriding the recalled
@@ -130,6 +151,11 @@
       <Custom Action='SetFromCmdLinePuppetMasterHostname' After='AppSearch'>
         CMDLINE_PUPPET_MASTER_HOSTNAME
       </Custom>
+      <!-- PUPPET_AGENT_CERTNAME -->
+      <Custom Action='SaveCmdLinePuppetAgentCertname' Before='AppSearch' />
+      <Custom Action='SetFromCmdLinePuppetAgentCertname' After='AppSearch'>
+        CMDLINE_PUPPET_AGENT_CERTNAME
+      </Custom>
     </InstallUISequence>
     <InstallExecuteSequence>
       <!-- INSTALLDIR -->
@@ -141,6 +167,11 @@
       <Custom Action='SaveCmdLinePuppetMasterHostname' Before='AppSearch' />
       <Custom Action='SetFromCmdLinePuppetMasterHostname' After='AppSearch'>
         CMDLINE_PUPPET_MASTER_HOSTNAME
+      </Custom>
+      <!-- PUPPET_AGENT_CERTNAME -->
+      <Custom Action='SaveCmdLinePuppetAgentCertname' Before='AppSearch' />
+      <Custom Action='SetFromCmdLinePuppetAgentCertname' After='AppSearch'>
+        CMDLINE_PUPPET_AGENT_CERTNAME
       </Custom>
     </InstallExecuteSequence>
 
