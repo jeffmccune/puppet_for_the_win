@@ -56,6 +56,21 @@
         <Directory Id='sys' Name='sys'>
         </Directory>
       </Directory>
+      <!-- This section inspired by: http://wix.sourceforge.net/manual-wix3/write_a_registry_entry.htm -->
+      <Component Id="RegistryEntries" Guid="5609A85E-BEAB-4807-B930-B7ED5D8E8F03">
+        <RegistryKey
+          Root="HKLM"
+          Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+          Action="create" >
+          <!-- This is the default (aka 'unnamed') key value of this path -->
+          <RegistryValue Type="integer" Value="0"/>
+          <!-- This is the specified value of a key at this path -->
+          <RegistryValue Name="InstalledFlag" Value="1" Type="integer" KeyPath="yes"/>
+          <!-- Store properties for later recall during uninstall, upgrade, repair -->
+          <RegistryValue Name="RememberedInstallDir" Type="string" Value="[INSTALLDIR]" />
+          <RegistryValue Name="RememberedPuppetMasterHostname" Type="string" Value="[PUPPET_MASTER_HOSTNAME]" />
+        </RegistryKey>
+      </Component>
     </Directory>
 
     <!-- It is possible to override WixVariable's on the command line using the
@@ -64,10 +79,77 @@
     <WixVariable Id="WixUILicenseRtf" Value="conf\windows\stage\misc\LICENSE.rtf" Overridable="yes" />
 
     <!--
+      Remembered Property Pattern
+      http://robmensching.com/blog/posts/2010/5/2/The-WiX-toolsets-Remember-Property-pattern
+      -->
+    <Property Id="INSTALLDIR">
+      <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
+      <RegistrySearch Id="RecallInstallDir" Root="HKLM"
+        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+        Name="RememberedInstallDir" Type="raw" />
+    </Property>
+    <Property Id="PUPPET_MASTER_HOSTNAME">
+      <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
+      <RegistrySearch Id="RecallPuppetMasterHostname" Root="HKLM"
+        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+        Name="RememberedPuppetMasterHostname" Type="raw" />
+    </Property>
+
+    <!-- Custom Actions to handle command line property values that override
+         remembered property values -->
+    <!-- INSTALLDIR -->
+    <CustomAction Id="SaveCmdLineInstallDir"
+      Property="[CMDLINE_INSTALLDIR]"
+      Value="[INSTALLDIR]"
+      Execute="firstSequence" />
+    <CustomAction Id="SetFromCmdLineInstallDir"
+      Property="INSTALLDIR"
+      Value="[CMDLINE_INSTALLDIR]"
+      Execute="firstSequence" />
+    <!-- PUPPET_MASTER_HOSTNAME -->
+    <CustomAction Id="SaveCmdLinePuppetMasterHostname"
+      Property="[CMDLINE_PUPPET_MASTER_HOSTNAME]"
+      Value="[PUPPET_MASTER_HOSTNAME]"
+      Execute="firstSequence" />
+    <CustomAction Id="SetFromCmdLinePuppetMasterHostname"
+      Property="PUPPET_MASTER_HOSTNAME"
+      Value="[CMDLINE_PUPPET_MASTER_HOSTNAME]"
+      Execute="firstSequence" />
+
+    <!-- First, save off properties specified on the command line Second,
+         restore the properties set by the command line overriding the recalled
+         value from the registry -->
+    <InstallUISequence>
+      <!-- INSTALLDIR -->
+      <Custom Action='SaveCmdLineInstallDir' Before='AppSearch' />
+      <Custom Action='SetFromCmdLineInstallDir' After='AppSearch'>
+        CMDLINE_INSTALLDIR
+      </Custom>
+      <!-- PUPPET_MASTER_HOSTNAME -->
+      <Custom Action='SaveCmdLinePuppetMasterHostname' Before='AppSearch' />
+      <Custom Action='SetFromCmdLinePuppetMasterHostname' After='AppSearch'>
+        CMDLINE_PUPPET_MASTER_HOSTNAME
+      </Custom>
+    </InstallUISequence>
+    <InstallExecuteSequence>
+      <!-- INSTALLDIR -->
+      <Custom Action='SaveCmdLineInstallDir' Before='AppSearch' />
+      <Custom Action='SetFromCmdLineInstallDir' After='AppSearch'>
+        CMDLINE_INSTALLDIR
+      </Custom>
+      <!-- PUPPET_MASTER_HOSTNAME -->
+      <Custom Action='SaveCmdLinePuppetMasterHostname' Before='AppSearch' />
+      <Custom Action='SetFromCmdLinePuppetMasterHostname' After='AppSearch'>
+        CMDLINE_PUPPET_MASTER_HOSTNAME
+      </Custom>
+    </InstallExecuteSequence>
+
+    <!--
       The Features to install.  We're using ComponentGroupRef instead of ComponentRef since we're
       generating the ruby wxs file using heat
     -->
     <Feature Id="$(var.OurProductNameWord)Runtime" Title="$(var.OurProductName) Runtime" Level="1">
+      <ComponentRef Id="RegistryEntries" />
       <ComponentGroupRef Id="ruby" />
       <ComponentGroupRef Id="puppet" />
       <ComponentGroupRef Id="facter" />
@@ -77,6 +159,5 @@
       <ComponentGroupRef Id="etc" />
       -->
     </Feature>
-
   </Product>
 </Wix>
