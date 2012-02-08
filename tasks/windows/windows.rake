@@ -20,9 +20,10 @@ require 'rake/downloadtask'
 TOPDIR=File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
 
 # Produce a wixobj from a wxs file.
-def candle(wxs_file, basedir)
+def candle(wxs_file, basedir=nil)
+  flags="-dStageDir=#{basedir}" if basedir
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
-    sh "candle -ext WixUIExtension -dStageDir=#{basedir} #{File.basename(wxs_file)}"
+    sh "candle -ext WixUIExtension #{flags} #{File.basename(wxs_file)}"
   end
 end
 
@@ -123,6 +124,12 @@ namespace :windows do
     'puppet' => { :src => 'stagedir/puppet' },
     'facter' => { :src => 'stagedir/facter' },
   }
+  # WXS UI Fragments.  These are static and should not be cleaned, though the
+  # objects they compile into should be.  These are different than the objects
+  # produced by heat because they only contain UI customizations and no actual
+  # files or components or such.
+  WXS_UI_FRAGMENTS = FileList['wix/ui/*.wxs']
+  WXS_UI_OBJS = WXS_UI_FRAGMENTS.ext('wixobj')
 
   # Additional directories to stage as fragments automatically.
   # conf/windows/stagedir/bin/ for example.
@@ -217,6 +224,12 @@ namespace :windows do
     end
   end
 
+  WXS_UI_OBJS.each do |wixobj|
+    file wixobj => [ wixobj.ext('wxs') ] do |t|
+      candle(t.name.ext('wxs'))
+    end
+  end
+
   WXS_FRAGMENTS.each do |wxs_frag|
     source_dir = WXS_FRAGMENTS_HASH[File.basename(wxs_frag.ext(''))][:src]
     file wxs_frag => [ source_dir, File.dirname(wxs_frag) ] do |t|
@@ -238,7 +251,7 @@ namespace :windows do
   end
 
   ####### REVISIT
-  file 'pkg/puppet.msi' => WIXOBJS do |t|
+  file 'pkg/puppet.msi' => WIXOBJS + WXS_UI_OBJS do |t|
     sh "light -ext WixUIExtension -cultures:en-us #{t.prerequisites.join(' ')} -out #{t.name}"
   end
 

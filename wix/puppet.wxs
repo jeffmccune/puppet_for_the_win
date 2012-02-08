@@ -31,8 +31,8 @@
 
     <!-- Note, this UI element must come _after_ the Package element -->
     <UI>
-      <!-- (#12473) Installation Directory Dialog -->
-      <UIRef Id="WixUI_InstallDir"/>
+      <!-- (#12473) (#12474) Installation Directory Dialog -->
+      <UIRef Id="WixUI_PuppetInstallDir"/>
       <!-- To use WixUI_InstallDir, you must set a property named
          WIXUI_INSTALLDIR with a value of the ID of the directory you want the
          user to be able to specify the location of. -->

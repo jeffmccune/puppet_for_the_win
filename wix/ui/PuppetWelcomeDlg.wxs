@@ -13,7 +13,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <UI>
-            <Dialog Id="WelcomeDlg" Width="370" Height="270" Title="!(loc.WelcomeDlg_Title)">
+            <Dialog Id="PuppetWelcomeDlg" Width="370" Height="270" Title="!(loc.WelcomeDlg_Title)">
                 <Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)" >
                     <Publish Property="WixUI_InstallMode" Value="Update">Installed AND PATCH</Publish>
                 </Control>
@@ -35,7 +35,7 @@
             </Dialog>
 
             <InstallUISequence>
-                <Show Dialog="WelcomeDlg" Before="ProgressDlg" Overridable="yes">NOT Installed OR PATCH</Show>
+                <Show Dialog="PuppetWelcomeDlg" Before="ProgressDlg" Overridable="yes">NOT Installed OR PATCH</Show>
             </InstallUISequence>
         </UI>
     </Fragment>
