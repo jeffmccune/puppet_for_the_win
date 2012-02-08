@@ -29,3 +29,28 @@ from the response.content\_length here:
     171:    def with_progress_bar(enable, file_name, size) #:nodoc:
     254:            with_progress_bar options[:progress], path.split('/').last, response.content_length do |progress|
 
+# WiX Properties #
+
+Setting WiX properties conditionally looks like nothing I've ever seen before
+so I'll mention it here.  The idiom to set a property for a dialog screen
+appears to be to define a CustomAction that executes in a previous screen or
+step.
+
+The CustomAction can be conditional using the syntax defined at [Conditional
+Statement Syntax](http://msdn.microsoft.com/en-us/library/aa368012.aspx)
+Here's an example used in the [Remember Property
+Pattern](http://robmensching.com/blog/posts/2010/5/2/The-WiX-toolsets-Remember-Property-pattern)
+
+    <Custom Action='SaveCmdLineInstallDir' Before='AppSearch' />
+    <Custom Action='SetFromCmdLineInstallDir' After='AppSearch'>
+      CMDLINE_INSTALLDIR
+    </Custom>
+
+In this example the `SaveCmdLineInstallDir` will act unconditionally while the
+`SetFromCmdLineInstallDir` action will act only when the `CMDLINE_INSTALLDIR`
+property is set.
+
+This technique can be used to conditionally set properties that aren't
+explicitly set by the user.
+
+EOF
