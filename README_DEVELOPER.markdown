@@ -36,6 +36,10 @@ so I'll mention it here.  The idiom to set a property for a dialog screen
 appears to be to define a CustomAction that executes in a previous screen or
 step.
 
+Information specific to working with with Properties and conditionals is
+available at [Using Properties in Conditional
+Statements](http://msdn.microsoft.com/en-us/library/aa372435.aspx)
+
 The CustomAction can be conditional using the syntax defined at [Conditional
 Statement Syntax](http://msdn.microsoft.com/en-us/library/aa368012.aspx)
 Here's an example used in the [Remember Property

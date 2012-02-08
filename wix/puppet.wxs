@@ -100,7 +100,7 @@
          computer name.  The command line may override this using custom
          actions with a condition that the associated CMDLINE_FOOBAR property
          is set. -->
-    <Property Id="PUPPET_AGENT_CERTNAME" Value="[ComputerName]">
+    <Property Id="PUPPET_AGENT_CERTNAME">
       <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
       <RegistrySearch Id="RecallPuppetAgentCertname" Root="HKLM"
         Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
@@ -136,6 +136,10 @@
       Property="PUPPET_AGENT_CERTNAME"
       Value="[CMDLINE_PUPPET_AGENT_CERTNAME]"
       Execute="firstSequence" />
+    <CustomAction Id="SetFromComputerNamePuppetAgentCertname"
+      Property="PUPPET_AGENT_CERTNAME"
+      Value="[ComputerName]"
+      Execute="firstSequence" />
 
     <!-- First, save off properties specified on the command line Second,
          restore the properties set by the command line overriding the recalled
@@ -156,6 +160,9 @@
       <Custom Action='SetFromCmdLinePuppetAgentCertname' After='AppSearch'>
         CMDLINE_PUPPET_AGENT_CERTNAME
       </Custom>
+      <Custom Action='SetFromComputerNamePuppetAgentCertname' Before='AppSearch'>
+        NOT CMDLINE_PUPPET_AGENT_CERTNAME
+      </Custom>
     </InstallUISequence>
     <InstallExecuteSequence>
       <!-- INSTALLDIR -->
@@ -172,6 +179,9 @@
       <Custom Action='SaveCmdLinePuppetAgentCertname' Before='AppSearch' />
       <Custom Action='SetFromCmdLinePuppetAgentCertname' After='AppSearch'>
         CMDLINE_PUPPET_AGENT_CERTNAME
+      </Custom>
+      <Custom Action='SetFromComputerNamePuppetAgentCertname' Before='AppSearch'>
+        NOT CMDLINE_PUPPET_AGENT_CERTNAME
       </Custom>
     </InstallExecuteSequence>
 

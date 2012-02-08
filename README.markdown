@@ -19,6 +19,21 @@ systems.
  * 7zip
  * WiX
 
+# Current UI #
+
+This section contains UI examples.
+
+## Installation Directory Dialog ##
+
+The puppet master hostname defaults to 'puppet' and can be specified on the
+command line using the `PUPPET_MASTER_HOSTNAME` public property.
+
+The puppet agent certificate name is automatically populated from the
+`ComputerName` property.  This field can be specified on the command line using
+the `PUPPET_AGENT_CERTNAME` public property.
+
+![Install Directory Dialog](http://links.puppetlabs.com/ftw_installdirdlg2.png)
+
 # Getting Started #
 
 Given a basic Windows 2003 R2 x64 system with the [Puppet Win
