@@ -1,0 +1,3 @@
+@echo Running facter on demand ...
+@call facter.bat --puppet %*
+@PAUSE

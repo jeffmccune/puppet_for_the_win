@@ -60,6 +60,18 @@ This screen will be customized
 
 ![Completed Setup Wizard](http://links.puppetlabs.com/ftw_msi_120210_1f.png)
 
+# Desktop Integration #
+
+Puppet and Facter can be run directly from the Explorer desktop by double
+clicking on `run_puppet_interactive.bat` and `run_facter_interactive.bat`.
+Shortcuts in the Start Menu will be added for these batch files.
+
+These batch files are not meant to be run from other scripts or the Task
+Scheduler because they explicitly pause at the end to give the user a chance to
+review the output without `cmd.exe` vanishing on them.  This looks like:
+
+![Run Facter Interactive](http://links.puppetlabs.com/ftw_msi_facter_interactive_1a.png)
+
 # Getting Started #
 
 Given a basic Windows 2003 R2 x64 system with the [Puppet Win
