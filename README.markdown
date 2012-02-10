@@ -23,7 +23,23 @@ systems.
 
 This section contains UI examples.
 
-## Installation Directory Dialog ##
+## Screen 1 - Security Warning ##
+
+The package is not signed.
+
+![Security Warning](http://links.puppetlabs.com/ftw_msi_120210_1a.png)
+
+## Screen 2 - Welcome ##
+
+![Welcome Screen](http://links.puppetlabs.com/ftw_msi_120210_1b.png)
+
+## Screen 3 - License ##
+
+![License Screen](http://links.puppetlabs.com/ftw_msi_120210_1c.png)
+
+## Screen 4 - Destination Folder ##
+
+![Destination Folder](http://links.puppetlabs.com/ftw_msi_120210_1d.png)
 
 The puppet master hostname defaults to 'puppet' and can be specified on the
 command line using the `PUPPET_MASTER_HOSTNAME` public property.
@@ -32,7 +48,17 @@ The puppet agent certificate name is automatically populated from the
 `ComputerName` property.  This field can be specified on the command line using
 the `PUPPET_AGENT_CERTNAME` public property.
 
-![Install Directory Dialog](http://links.puppetlabs.com/ftw_installdirdlg2.png)
+## Screen 5 - Ready to Install ##
+
+This screen will be removed since it's needless.
+
+![Ready to Install](http://links.puppetlabs.com/ftw_msi_120210_1e.png)
+
+## Screen 6 - Completed ##
+
+This screen will be customized
+
+![Completed Setup Wizard](http://links.puppetlabs.com/ftw_msi_120210_1f.png)
 
 # Getting Started #
 
@@ -78,12 +104,6 @@ and 1.6.x integration branches.
     rake windows:build
 
 # User Facing Customizations #
-
-## Installation Directory GUI ##
-
-The installation directory is specified in the installer GUI as:
-
-![Puppet Install Directory UI](http://links.puppetlabs.com/ftw_installdir.png)
 
 ## Installation Directory CLI ##
 

@@ -77,6 +77,9 @@
          -d flag to light when Overridable="yes". -->
     <!-- #12475 - Specify the license. -->
     <WixVariable Id="WixUILicenseRtf" Value="conf\windows\stage\misc\LICENSE.rtf" Overridable="yes" />
+    <!-- (#12521) Use local Bitmaps -->
+    <WixVariable Id="WixUIBannerBmp" Value="wix\ui\Bitmaps\bannrbmp.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="wix\ui\Bitmaps\dlgbmp.bmp" />
 
     <!--
       Remembered Property Pattern
