@@ -191,11 +191,13 @@
     -->
     <Feature Id="$(var.OurProductNameWord)Runtime" Title="$(var.OurProductName) Runtime" Level="1">
       <ComponentRef Id="RegistryEntries" />
+      <ComponentGroupRef Id="misc" />
+      <?ifndef BUILD_UI_ONLY ?>
       <ComponentGroupRef Id="ruby" />
       <ComponentGroupRef Id="puppet" />
       <ComponentGroupRef Id="facter" />
       <ComponentGroupRef Id="bin" />
-      <ComponentGroupRef Id="misc" />
+      <?endif?>
       <!-- We may not need an etc directory out of the box.
       <ComponentGroupRef Id="etc" />
       -->
