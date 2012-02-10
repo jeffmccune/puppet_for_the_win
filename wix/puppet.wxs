@@ -52,8 +52,12 @@
       INSTALLDIR is the root of our application, which is C:/puppetlabs for us.
     -->
     <Directory Id='TARGETDIR' Name='SourceDir'>
-      <Directory Id='INSTALLDIR' Name='puppetlabs'>
-        <Directory Id='sys' Name='sys'>
+      <Directory Id='ProgramFilesFolder' >
+        <Directory Id='PuppetLabs' Name="$(var.OurCompanyName)">
+          <Directory Id='INSTALLDIR' Name="$(var.OurProductNameWord)">
+            <Directory Id='sys' Name='sys'>
+            </Directory>
+          </Directory>
         </Directory>
       </Directory>
       <!-- This section inspired by: http://wix.sourceforge.net/manual-wix3/write_a_registry_entry.htm -->

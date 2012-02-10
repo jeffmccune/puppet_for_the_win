@@ -39,7 +39,9 @@ The package is not signed.
 
 ## Screen 4 - Destination Folder ##
 
-![Destination Folder](http://links.puppetlabs.com/ftw_msi_120210_1d.png)
+![Destination Folder](http://links.puppetlabs.com/ftw_msi_120210_3d.png)
+
+Now defaults to `%PROGRAMFILES%/puppetlabs`
 
 The puppet master hostname defaults to 'puppet' and can be specified on the
 command line using the `PUPPET_MASTER_HOSTNAME` public property.
@@ -132,8 +134,8 @@ silent installation to `C:\test\puppet` which is not the default.
 
 All of these are optional and their default values are in parentheses.
 
- * `INSTALLDIR` ("C:\puppetlabs")
- * `PUPPET_AGENT_CERTNAME` ([ComputerName])
+ * `INSTALLDIR` (`"%PROGRAMFILES%\Puppet Labs\Puppet"`)
+ * `PUPPET_AGENT_CERTNAME` (`[ComputerName]`)
  * `PUPPET_MASTER_HOSTNAME` ("puppet")
 
 EOF
