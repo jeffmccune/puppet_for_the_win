@@ -57,4 +57,15 @@ property is set.
 This technique can be used to conditionally set properties that aren't
 explicitly set by the user.
 
+# Build the UI Only #
+
+To build this special package an environment variable must also be set
+like so:
+
+    rake windows:buildui BUILD_UI_ONLY=true
+
+The resulting package will be in `pkg/puppet_ui_only.msi`
+
+This is MUCH faster than building the full package.
+
 EOF

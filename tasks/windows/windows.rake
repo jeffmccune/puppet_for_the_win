@@ -20,10 +20,13 @@ require 'rake/downloadtask'
 TOPDIR=File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
 
 # Produce a wixobj from a wxs file.
-def candle(wxs_file, basedir=nil)
-  flags="-dStageDir=#{basedir}" if basedir
+def candle(wxs_file, flags=[])
+  flags_string = flags.join(' ')
+  if ENV['BUILD_UI_ONLY'] then
+    flags_string << " -dBUILD_UI_ONLY"
+  end
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
-    sh "candle -ext WixUIExtension #{flags} #{File.basename(wxs_file)}"
+    sh "candle -ext WixUIExtension #{flags_string} #{File.basename(wxs_file)}"
   end
 end
 
@@ -150,6 +153,9 @@ namespace :windows do
   end
   # All of the objects we need to create
   WIXOBJS = (WXSFILES + WXS_FRAGMENTS).ext('wixobj')
+  # UI Only objects we need to link.  Filter out the large objects like Ruby, Puppet and Facter
+  # These objects need to match up to the preprocessor conditional in puppet.wxs
+  WIXOBJS_MIN = (WXSFILES + WXS_FRAGMENTS.find_all { |f| f =~ /misc/ }).ext 'wixobj'
   # These directories should be unpacked into stagedir/sys
   SYSTOOLS = FEATURES.collect { |fn| File.join("stagedir", "sys", fn) }
 
@@ -161,6 +167,9 @@ namespace :windows do
   # This will be called AFTER the update task in a new process.
   desc "Build puppet.msi"
   task :build => "pkg/puppet.msi"
+
+  desc "Build puppet_ui_only.msi"
+  task :buildui => "pkg/puppet_ui_only.msi"
 
   desc "Download example"
   task :download => DOWNLOADS
@@ -220,7 +229,7 @@ namespace :windows do
   WIXOBJS.each do |wixobj|
     source_dir = WXS_FRAGMENTS_HASH[File.basename(wixobj.ext(''))][:src]
     file wixobj => [ wixobj.ext('wxs'), File.dirname(wixobj) ] do |t|
-      candle(t.name.ext('wxs'), source_dir)
+      candle(t.name.ext('wxs'), [ "-dStageDir=#{source_dir}" ] )
     end
   end
 
@@ -250,8 +259,11 @@ namespace :windows do
     task :stage => ["stagedir/#{app}"]
   end
 
-  ####### REVISIT
   file 'pkg/puppet.msi' => WIXOBJS + WXS_UI_OBJS do |t|
+    sh "light -ext WixUIExtension -cultures:en-us #{t.prerequisites.join(' ')} -out #{t.name}"
+  end
+
+  file 'pkg/puppet_ui_only.msi' => WIXOBJS_MIN + WXS_UI_OBJS do |t|
     sh "light -ext WixUIExtension -cultures:en-us #{t.prerequisites.join(' ')} -out #{t.name}"
   end
 
