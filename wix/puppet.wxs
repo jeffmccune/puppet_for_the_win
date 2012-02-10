@@ -69,6 +69,7 @@
           <!-- Store properties for later recall during uninstall, upgrade, repair -->
           <RegistryValue Name="RememberedInstallDir" Type="string" Value="[INSTALLDIR]" />
           <RegistryValue Name="RememberedPuppetMasterHostname" Type="string" Value="[PUPPET_MASTER_HOSTNAME]" />
+          <RegistryValue Name="RememberedPuppetAgentCertname" Type="string" Value="[PUPPET_AGENT_CERTNAME]" />
         </RegistryKey>
       </Component>
     </Directory>
