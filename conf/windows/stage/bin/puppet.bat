@@ -1,6 +1,6 @@
 @echo off
 SETLOCAL
 
-call %~dp0environment.bat %0 %*
+call "%~dp0environment.bat" %0 %*
 
-ruby -S -- %SCRIPT_NAME% %*
+ruby -S -- "%SCRIPT_NAME%" %*

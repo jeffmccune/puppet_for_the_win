@@ -1,0 +1,3 @@
+@echo Running puppet on demand ...
+@call puppet.bat agent --test %*
+@PAUSE

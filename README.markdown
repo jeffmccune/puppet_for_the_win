@@ -39,7 +39,9 @@ The package is not signed.
 
 ## Screen 4 - Destination Folder ##
 
-![Destination Folder](http://links.puppetlabs.com/ftw_msi_120210_1d.png)
+![Destination Folder](http://links.puppetlabs.com/ftw_msi_120210_3d.png)
+
+Now defaults to `%PROGRAMFILES%/puppetlabs`
 
 The puppet master hostname defaults to 'puppet' and can be specified on the
 command line using the `PUPPET_MASTER_HOSTNAME` public property.
@@ -59,6 +61,18 @@ This screen will be removed since it's needless.
 This screen will be customized
 
 ![Completed Setup Wizard](http://links.puppetlabs.com/ftw_msi_120210_1f.png)
+
+# Desktop Integration #
+
+Puppet and Facter can be run directly from the Explorer desktop by double
+clicking on `run_puppet_interactive.bat` and `run_facter_interactive.bat`.
+Shortcuts in the Start Menu will be added for these batch files.
+
+These batch files are not meant to be run from other scripts or the Task
+Scheduler because they explicitly pause at the end to give the user a chance to
+review the output without `cmd.exe` vanishing on them.  This looks like:
+
+![Run Facter Interactive](http://links.puppetlabs.com/ftw_msi_facter_interactive_1a.png)
 
 # Getting Started #
 
@@ -120,8 +134,8 @@ silent installation to `C:\test\puppet` which is not the default.
 
 All of these are optional and their default values are in parentheses.
 
- * `INSTALLDIR` ("C:\puppetlabs")
- * `PUPPET_AGENT_CERTNAME` ([ComputerName])
+ * `INSTALLDIR` (`"%PROGRAMFILES%\Puppet Labs\Puppet"`)
+ * `PUPPET_AGENT_CERTNAME` (`[ComputerName]`)
  * `PUPPET_MASTER_HOSTNAME` ("puppet")
 
 EOF

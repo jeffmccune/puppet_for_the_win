@@ -52,8 +52,12 @@
       INSTALLDIR is the root of our application, which is C:/puppetlabs for us.
     -->
     <Directory Id='TARGETDIR' Name='SourceDir'>
-      <Directory Id='INSTALLDIR' Name='puppetlabs'>
-        <Directory Id='sys' Name='sys'>
+      <Directory Id='ProgramFilesFolder' >
+        <Directory Id='PuppetLabs' Name="$(var.OurCompanyName)">
+          <Directory Id='INSTALLDIR' Name="$(var.OurProductNameWord)">
+            <Directory Id='sys' Name='sys'>
+            </Directory>
+          </Directory>
         </Directory>
       </Directory>
       <!-- This section inspired by: http://wix.sourceforge.net/manual-wix3/write_a_registry_entry.htm -->
@@ -69,6 +73,7 @@
           <!-- Store properties for later recall during uninstall, upgrade, repair -->
           <RegistryValue Name="RememberedInstallDir" Type="string" Value="[INSTALLDIR]" />
           <RegistryValue Name="RememberedPuppetMasterHostname" Type="string" Value="[PUPPET_MASTER_HOSTNAME]" />
+          <RegistryValue Name="RememberedPuppetAgentCertname" Type="string" Value="[PUPPET_AGENT_CERTNAME]" />
         </RegistryKey>
       </Component>
     </Directory>
@@ -80,6 +85,10 @@
     <!-- (#12521) Use local Bitmaps -->
     <WixVariable Id="WixUIBannerBmp" Value="wix\ui\Bitmaps\bannrbmp.bmp" />
     <WixVariable Id="WixUIDialogBmp" Value="wix\ui\Bitmaps\dlgbmp.bmp" />
+    <WixVariable Id="WixUIExclamationIco" Value="wix\ui\Bitmaps\exclamic.ico" />
+    <WixVariable Id="WixUIInfoIco" Value="wix\ui\Bitmaps\info.ico" />
+    <WixVariable Id="WixUINewIco" Value="wix\ui\Bitmaps\New.ico" />
+    <WixVariable Id="WixUIUpIco" Value="wix\ui\Bitmaps\Up.ico" />
 
     <!--
       Remembered Property Pattern
