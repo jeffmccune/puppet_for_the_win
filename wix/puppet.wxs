@@ -68,6 +68,17 @@
               <!-- This is a permanent directory, do not remove on uninstall -->
               <Component Id="PuppetConfDir" Permanent="yes" Guid="B9179A60-483F-4F32-8E3F-AD632B0DEBB4">
                 <CreateFolder />
+                <!-- createLine Creates an .ini entry only if the entry does not already exist. -->
+                <IniFile Id="PuppetConfServer" Name="puppet.conf"
+                  Action="createLine"
+                  Section="main"
+                  Key="server" Value="[PUPPET_MASTER_HOSTNAME]"
+                  Directory="PuppetConfDir" />
+                <IniFile Id="PuppetConfCertName" Name="puppet.conf"
+                  Action="createLine"
+                  Section="main"
+                  Key="certname" Value='"[PUPPET_AGENT_CERTNAME]"'
+                  Directory="PuppetConfDir" />
               </Component>
             </Directory>
             <!-- This PuppetVarDir directory is necessary to fix #12576 otherwise
