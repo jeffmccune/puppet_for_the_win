@@ -30,13 +30,13 @@
                 <Control Id="ChangeFolder" Type="PushButton" X="20" Y="100" Width="56" Height="17" Text="!(loc.InstallDirDlgChange)" />
 
                 <Control Id="PuppetMasterHostnameText" Type="Text" X="20" Y="135" Width="290" Height="13" NoPrefix="yes"
-                  Text="Connect to Puppet Master Hostname:" />
+                  Text="Hostname of the Puppet master:" />
                 <Control Id="PuppetMasterHostnameEdit" Type="Edit" X="20" Y="150" Width="320" Height="18"
                   Text="[PUPPET_MASTER_HOSTNAME]"
                   Property="PUPPET_MASTER_HOSTNAME" />
 
                 <Control Id="PuppetAgentCertNameText" Type="Text" X="20" Y="185" Width="290" Height="13" NoPrefix="yes"
-                  Text="Certificate Name of this Puppet Agent:" />
+                  Text="Certificate name of this Puppet agent:" />
                 <Control Id="PuppetAgentCertNameEdit" Type="Edit" X="20" Y="200" Width="320" Height="18"
                   Text="[PUPPET_AGENT_CERTNAME]"
                   Property="PUPPET_AGENT_CERTNAME" />

@@ -1,0 +1,43 @@
+#! /usr/bin/env ruby
+
+require 'fileutils'
+require 'pathname'
+require 'enumerator'
+
+def mru(count=5)
+  Dir.chdir "/Volumes/Slow/jeff/puppetlabs/Dropbox/Public/img" do
+    Pathname.glob('*.png').sort_by { |p| p.ctime }.last(count).collect do |path|
+      path.realpath
+    end
+  end
+end
+
+
+def rename(mru)
+  time = Time.now
+  mru.to_enum(:each_with_index).collect do |img,idx|
+    Dir.chdir(img.dirname) do
+      img.rename "screenshot_#{time.tv_sec}_#{idx}.png"
+      Pathname.new("screenshot_#{time.tv_sec}_#{idx}.png").realpath
+    end
+  end
+end
+
+def urls(files)
+  files.collect { |f| "http://dl.dropbox.com/u/17169007/img/#{f.basename}" }
+end
+
+
+def update_readme(urls)
+  readme_path = Pathname.new(__FILE__).dirname.dirname.realpath + "README.markdown"
+  image_str = urls.to_enum(:each_with_index).collect { |url,idx| "![Screen #{idx}](#{url})" }.join("\n")
+  new_readme = readme_path.read.gsub(/(# Screen\s*shots.*?)\!\[.*?#/mi) do |s|
+    "#{$1}#{image_str}\n\n#"
+  end
+  readme_path.open("w") do |readme|
+    readme.write new_readme
+  end
+  new_readme
+end
+
+puts update_readme urls rename mru

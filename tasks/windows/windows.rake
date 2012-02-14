@@ -25,6 +25,7 @@ def candle(wxs_file, flags=[])
   if ENV['BUILD_UI_ONLY'] then
     flags_string << " -dBUILD_UI_ONLY"
   end
+  flags_string << " -dlicenseRtf=conf/windows/stage/misc/LICENSE.rtf"
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
     sh "candle -ext WixUIExtension #{flags_string} #{File.basename(wxs_file)}"
   end
@@ -88,6 +89,9 @@ namespace :windows do
   # preventing the build tasks from having to re-clone all of puppet and facter
   # which usually takes ~ 3 minutes.
   GITREPOS  = APPS.collect { |fn| File.join("downloads", fn.ext('')) }
+
+  # These files provide customization of the installer strings.
+  LOCALIZED_STRINGS = FileList['wix/**/*.wxl']
 
   # These are the VCS repositories checked out into downloads.
   # For example, downloads/puppet and downloads/facter
@@ -259,12 +263,14 @@ namespace :windows do
     task :stage => ["stagedir/#{app}"]
   end
 
-  file 'pkg/puppet.msi' => WIXOBJS + WXS_UI_OBJS do |t|
-    sh "light -ext WixUIExtension -cultures:en-us #{t.prerequisites.join(' ')} -out #{t.name}"
+  file 'pkg/puppet.msi' => WIXOBJS + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
+    objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
+    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
-  file 'pkg/puppet_ui_only.msi' => WIXOBJS_MIN + WXS_UI_OBJS do |t|
-    sh "light -ext WixUIExtension -cultures:en-us #{t.prerequisites.join(' ')} -out #{t.name}"
+  file 'pkg/puppet_ui_only.msi' => WIXOBJS_MIN + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
+    objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
+    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
   desc 'Install the MSI using msiexec'
