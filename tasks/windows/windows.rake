@@ -25,6 +25,7 @@ def candle(wxs_file, flags=[])
   if ENV['BUILD_UI_ONLY'] then
     flags_string << " -dBUILD_UI_ONLY"
   end
+  flags_string << " -dlicenseRtf=conf/windows/stage/misc/LICENSE.rtf"
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
     sh "candle -ext WixUIExtension #{flags_string} #{File.basename(wxs_file)}"
   end
