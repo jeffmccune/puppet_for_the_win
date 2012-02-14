@@ -68,4 +68,15 @@ The resulting package will be in `pkg/puppet_ui_only.msi`
 
 This is MUCH faster than building the full package.
 
+# Localization Strings #
+
+The strings used throughout the installer are defined in the file
+`wix/Localization/puppet_en-us.wxl`.  In the future if we support other
+languages than English we will need to create additional localization files.  A
+convenient place to get started is the WiX source code in the
+`src/ext/UIExtension/wixlib/*.wxl` directory.
+
+For the time being, any customization of strings shown to the user needs to
+happen inside of `puppet_en-us.wxl`.
+
 EOF
