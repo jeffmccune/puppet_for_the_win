@@ -34,6 +34,8 @@ Patch dialog sequence:
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <UI Id="WixUI_PuppetInstallDir">
+            <!-- Include Puppet Labs UI Text Styles -->
+            <?include $(sys.CURRENTDIR)../include/textstyles.wxi?>
             <TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
             <TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="12" />
             <TextStyle Id="WixUI_Font_Title" FaceName="Tahoma" Size="9" Bold="yes" />
