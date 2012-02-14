@@ -256,8 +256,8 @@
 
     <String Id="WelcomeDlg_Title" Overridable="yes"><!-- _locID_text="WelcomeDlg_Title" _locComment="WelcomeDlg_Title" -->[ProductName] Setup</String>
     <String Id="WelcomeDlgBitmap" Overridable="yes"><!-- _locID_text="WelcomeDlgBitmap" _locComment="WelcomeDlgBitmap" -->WixUI_Bmp_Dialog</String>
-    <String Id="WelcomeDlgDescription" Overridable="yes"><!-- _locID_text="WelcomeDlgDescription" _locComment="WelcomeDlgDescription" -->The Setup Wizard will install [ProductName] on your computer. Click Next to continue or Cancel to exit the Setup Wizard.</String>
-    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes"><!-- _locID_text="WelcomeUpdateDlgDescriptionUpdate" _locComment="WelcomeUpdateDlgDescriptionUpdate" -->The Setup Wizard will update [ProductName] on your computer. Click Next to continue or Cancel to exit the Setup Wizard.</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes"><!-- _locID_text="WelcomeDlgDescription" _locComment="WelcomeDlgDescription" -->This will install [ProductName] [Version] and configure the system to fetch configurations every half hour.&#13;&#10;&#13;&#10;This version of [ProductName] will work with puppet masters running Puppet 2.7 or higher, including all Puppet Enterprise releases since 2.0.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes"><!-- _locID_text="WelcomeUpdateDlgDescriptionUpdate" _locComment="WelcomeUpdateDlgDescriptionUpdate" -->This will update [ProductName] [Version] and configure the system to fetch configurations every half hour.  This version of [ProductName] will work with puppet masters running Puppet 2.7 or higher, including all Puppet Enterprise releases since 2.0.</String>
     <String Id="WelcomeDlgTitle" Overridable="yes"><!-- _locID_text="WelcomeDlgTitle" _locComment="WelcomeDlgTitle" -->{\WixUI_Font_Bigger}Welcome to the [ProductName] Setup Wizard</String>
 
     <String Id="WelcomeEulaDlg_Title" Overridable="yes"><!-- _locID_text="WelcomeEulaDlg_Title" _locComment="WelcomeEulaDlg_Title" -->[ProductName] Setup</String>

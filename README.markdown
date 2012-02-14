@@ -31,11 +31,13 @@ The package is not signed.
 
 ## Screen 2 - Welcome ##
 
-![Welcome Screen](http://links.puppetlabs.com/ftw_msi_120210_1b.png)
+Now with customization of localization strings.
+
+![Welcome Screen](http://links.puppetlabs.com/ftw_msi_120213_welcome_1.png)
 
 ## Screen 3 - License ##
 
-![License Screen](http://links.puppetlabs.com/ftw_msi_120210_1c.png)
+![License Screen](http://links.puppetlabs.com/ftw_msi_120213_license_1.png)
 
 ## Screen 4 - Destination Folder ##
 
@@ -54,13 +56,13 @@ the `PUPPET_AGENT_CERTNAME` public property.
 
 This screen will be removed since it's needless.
 
-![Ready to Install](http://links.puppetlabs.com/ftw_msi_120210_1e.png)
+![Ready to Install](http://links.puppetlabs.com/ftw_msi_120213_ready_1.png)
 
 ## Screen 6 - Completed ##
 
 This screen will be customized
 
-![Completed Setup Wizard](http://links.puppetlabs.com/ftw_msi_120210_1f.png)
+![Completed Setup Wizard](http://links.puppetlabs.com/ftw_msi_120213_completed_1.png)
 
 # Desktop Integration #
 

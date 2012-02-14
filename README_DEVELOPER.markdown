@@ -79,4 +79,7 @@ convenient place to get started is the WiX source code in the
 For the time being, any customization of strings shown to the user needs to
 happen inside of `puppet_en-us.wxl`.
 
+In addition, customization of text styles (color, size, font) needs to have a
+new TextStyle defined in `wix/include/textstyles.wxi`
+
 EOF
