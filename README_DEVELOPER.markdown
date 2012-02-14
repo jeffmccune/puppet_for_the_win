@@ -87,4 +87,26 @@ new TextStyle defined in `wix/include/textstyles.wxi`
 You can use the included `ext/screenshots` script to automate the process of
 updating the README file with current images.
 
+# Modifying the included Ruby #
+
+The copy of Ruby is created by simply zipping up the `stagedir/sys/ruby`
+directory into `ruby.zip`  I recently removed some gems following this process:
+
+    C:\>SET PATH=Z:\vagrant\win\puppetwinbuilder\src\puppet_for_the_win\stagedir\sys\ruby\bin;%PATH%
+    gem uninstall rspec
+    gem uninstall rspec-core
+    gem uninstall mocha
+    ...
+
+Then back on my Mac:
+
+    % cd /vagrant/src/puppet_for_the_win/stagedir/sys
+    % zip -r ruby.zip ruby
+    % scp ruby.zip downloads.puppetlabs.com:/opt/downloads/development/ftw/
+
+This produces a new archive and uploads it to the webserver the rake tasks will
+download from if the file doesn't exist locally.  To use the new zip file
+delete the previous one from `downloads/ruby.zip` or use the `rake clobber`
+task.
+
 EOF
