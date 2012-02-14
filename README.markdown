@@ -39,7 +39,7 @@ The package is not signed.
 
 ## Screen 4 - Destination Folder ##
 
-![Destination Folder](http://links.puppetlabs.com/ftw_msi_120210_3d.png)
+![Destination Folder](http://links.puppetlabs.com/ftw_msi_120213_destination_2.png)
 
 Now defaults to `%PROGRAMFILES%/puppetlabs`
 
