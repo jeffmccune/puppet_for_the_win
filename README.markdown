@@ -3,6 +3,19 @@
 This project is a small set of Rake tasks to automate the process of building
 MSI packages for Puppet on Windows systems.
 
+# Screen Shots #
+
+The following screen shots show the current state of the graphical installer.
+These screen shots are generated automatically.
+
+![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_0.png)
+![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_1.png)
+![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_2.png)
+![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_3.png)
+![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_4.png)
+
+# Overview #
+
 This is a separate repository because it is meant to build MSI packages for
 arbitrary versions of Puppet, Facter and other related tools.
 
@@ -18,51 +31,6 @@ systems.
  * Git
  * 7zip
  * WiX
-
-# Current UI #
-
-This section contains UI examples.
-
-## Screen 1 - Security Warning ##
-
-The package is not signed.
-
-![Security Warning](http://links.puppetlabs.com/ftw_msi_120210_1a.png)
-
-## Screen 2 - Welcome ##
-
-Now with customization of localization strings.
-
-![Welcome Screen](http://links.puppetlabs.com/ftw_msi_120213_welcome_1.png)
-
-## Screen 3 - License ##
-
-![License Screen](http://links.puppetlabs.com/ftw_msi_120213_license_1.png)
-
-## Screen 4 - Destination Folder ##
-
-![Destination Folder](http://links.puppetlabs.com/ftw_msi_120213_destination_2.png)
-
-Now defaults to `%PROGRAMFILES%/puppetlabs`
-
-The puppet master hostname defaults to 'puppet' and can be specified on the
-command line using the `PUPPET_MASTER_HOSTNAME` public property.
-
-The puppet agent certificate name is automatically populated from the
-`ComputerName` property.  This field can be specified on the command line using
-the `PUPPET_AGENT_CERTNAME` public property.
-
-## Screen 5 - Ready to Install ##
-
-This screen will be removed since it's needless.
-
-![Ready to Install](http://links.puppetlabs.com/ftw_msi_120213_ready_1.png)
-
-## Screen 6 - Completed ##
-
-This screen will be customized
-
-![Completed Setup Wizard](http://links.puppetlabs.com/ftw_msi_120213_completed_1.png)
 
 # Desktop Integration #
 

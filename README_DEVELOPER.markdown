@@ -82,4 +82,9 @@ happen inside of `puppet_en-us.wxl`.
 In addition, customization of text styles (color, size, font) needs to have a
 new TextStyle defined in `wix/include/textstyles.wxi`
 
+# Screen shots #
+
+You can use the included `ext/screenshots` script to automate the process of
+updating the README file with current images.
+
 EOF
