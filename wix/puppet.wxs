@@ -60,6 +60,38 @@
           </Directory>
         </Directory>
       </Directory>
+      <!-- The CommonAppDataFolder is automatically filled in for us. -->
+      <Directory Id="CommonAppDataFolder" Name="CommonAppData">
+        <Directory Id="PuppetLabsAppData" Name="PuppetLabs">
+          <Directory Id="PuppetAppData" Name="puppet">
+            <Directory Id="PuppetConfDir" Name="etc">
+              <!-- This is a permanent directory, do not remove on uninstall -->
+              <Component Id="PuppetConfDir" Permanent="yes" Guid="B9179A60-483F-4F32-8E3F-AD632B0DEBB4">
+                <CreateFolder />
+                <!-- createLine Creates an .ini entry only if the entry does not already exist. -->
+                <IniFile Id="PuppetConfServer" Name="puppet.conf"
+                  Action="createLine"
+                  Section="main"
+                  Key="server" Value="[PUPPET_MASTER_HOSTNAME]"
+                  Directory="PuppetConfDir" />
+                <IniFile Id="PuppetConfCertName" Name="puppet.conf"
+                  Action="createLine"
+                  Section="main"
+                  Key="certname" Value='"[PUPPET_AGENT_CERTNAME]"'
+                  Directory="PuppetConfDir" />
+              </Component>
+            </Directory>
+            <!-- This PuppetVarDir directory is necessary to fix #12576 otherwise
+                 puppet cannot create the directories it needs since the parent
+                 does not exist. -->
+            <Directory Id="PuppetVarDir" Name="var">
+              <Component Id="PuppetVarDir" Permanent="yes" Guid="B95A17F3-CF5E-4EC7-859E-F10C0965645F">
+                <CreateFolder />
+              </Component>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
       <!-- This section inspired by: http://wix.sourceforge.net/manual-wix3/write_a_registry_entry.htm -->
       <Component Id="RegistryEntries" Guid="5609A85E-BEAB-4807-B930-B7ED5D8E8F03">
         <RegistryKey
@@ -203,6 +235,8 @@
     -->
     <Feature Id="$(var.OurProductNameWord)Runtime" Title="$(var.OurProductName) Runtime" Level="1">
       <ComponentRef Id="RegistryEntries" />
+      <ComponentRef Id="PuppetConfDir" />
+      <ComponentRef Id="PuppetVarDir" />
       <ComponentGroupRef Id="misc" />
       <?ifndef BUILD_UI_ONLY ?>
       <ComponentGroupRef Id="ruby" />

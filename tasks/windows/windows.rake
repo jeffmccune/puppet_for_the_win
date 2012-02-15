@@ -27,7 +27,7 @@ def candle(wxs_file, flags=[])
   end
   flags_string << " -dlicenseRtf=conf/windows/stage/misc/LICENSE.rtf"
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
-    sh "candle -ext WixUIExtension #{flags_string} #{File.basename(wxs_file)}"
+    sh "candle -ext WixUIExtension -arch x86 #{flags_string} #{File.basename(wxs_file)}"
   end
 end
 

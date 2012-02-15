@@ -8,11 +8,11 @@ MSI packages for Puppet on Windows systems.
 The following screen shots show the current state of the graphical installer.
 These screen shots are generated automatically.
 
-![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_0.png)
-![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_1.png)
-![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_2.png)
-![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_3.png)
-![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1329206748_4.png)
+![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1329245683_0.png)
+![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1329245683_1.png)
+![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1329245683_2.png)
+![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329245683_3.png)
+![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1329245683_4.png)
 
 # Overview #
 
