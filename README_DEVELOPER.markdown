@@ -109,4 +109,10 @@ download from if the file doesn't exist locally.  To use the new zip file
 delete the previous one from `downloads/ruby.zip` or use the `rake clobber`
 task.
 
+# Ruby Debug #
+
+I'm debugging using Cygwin Ruby with rubygems installed via `setup.rb`.  Here's how to install the ruby-debug gem:
+
+    gem install ruby-debug --platform=mswin32
+
 EOF
