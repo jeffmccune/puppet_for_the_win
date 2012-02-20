@@ -108,4 +108,20 @@ All of these are optional and their default values are in parentheses.
  * `PUPPET_AGENT_CERTNAME` (`[ComputerName]`)
  * `PUPPET_MASTER_HOSTNAME` ("puppet")
 
+# Troubleshooting #
+
+## Missing .NET Framework ##
+
+If you receive exit code 128 when running rake build tasks and it looks like
+`candle` and `light` don't actually do anything, it's likely because the
+Microsoft .NET Framework is not installed.
+
+If you try to run `candle.exe` or `light.exe` from Explorer, you might receive
+"Application Error" - The application failed to initialize properly
+(0xC0000135). Click on OK to terminate the application.  This is the same
+symptom and .NET should be installed.
+
+In order to resolve this, please use Windows Update to install the .NET
+Framework 3.5 (Service Pack 1).
+
 EOF
