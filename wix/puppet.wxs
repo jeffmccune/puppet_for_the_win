@@ -66,18 +66,29 @@
           <Directory Id="PuppetAppData" Name="puppet">
             <Directory Id="PuppetConfDir" Name="etc">
               <!-- This is a permanent directory, do not remove on uninstall -->
-              <Component Id="PuppetConfDir" Permanent="yes" Guid="B9179A60-483F-4F32-8E3F-AD632B0DEBB4">
+              <Component Id="PuppetConfUnconditionalSettings" Permanent="yes" Guid="B9179A60-483F-4F32-8E3F-AD632B0DEBB4">
                 <CreateFolder />
-                <!-- createLine Creates an .ini entry only if the entry does not already exist. -->
                 <IniFile Id="PuppetConfServer" Name="puppet.conf"
                   Action="createLine"
                   Section="main"
                   Key="server" Value="[PUPPET_MASTER_HOSTNAME]"
                   Directory="PuppetConfDir" />
-                <IniFile Id="PuppetConfCertName" Name="puppet.conf"
+                <IniFile Id="PuppetConfPluginSync" Name="puppet.conf"
                   Action="createLine"
                   Section="main"
-                  Key="certname" Value='"[PUPPET_AGENT_CERTNAME]"'
+                  Key="pluginsync" Value="true"
+                  Directory="PuppetConfDir" />
+              </Component>
+              <Component Id="PuppetConfWithCertname" Permanent="yes" Guid="5D1813E1-0AEB-4965-B504-354D7F10DCEA">
+                <Condition>PUPPET_AGENT_CERTNAME</Condition>
+                <CreateFolder />
+                <!-- The certname setting will only be managed if the
+                     PUPPET_AGENT_CERTNAME is not an empty string -->
+                <!-- Manage the entry itself -->
+                <IniFile Id="PuppetConfCertname" Name="puppet.conf"
+                  Action="createLine"
+                  Section="main"
+                  Key="certname" Value="[PUPPET_AGENT_CERTNAME]"
                   Directory="PuppetConfDir" />
               </Component>
             </Directory>
@@ -140,10 +151,6 @@
         Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
         Name="RememberedPuppetMasterHostname" Type="raw" />
     </Property>
-    <!-- PUPPET_AGENT_CERTNAME is special because it has a default value of the
-         computer name.  The command line may override this using custom
-         actions with a condition that the associated CMDLINE_FOOBAR property
-         is set. -->
     <Property Id="PUPPET_AGENT_CERTNAME">
       <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
       <RegistrySearch Id="RecallPuppetAgentCertname" Root="HKLM"
@@ -180,10 +187,6 @@
       Property="PUPPET_AGENT_CERTNAME"
       Value="[CMDLINE_PUPPET_AGENT_CERTNAME]"
       Execute="firstSequence" />
-    <CustomAction Id="SetFromComputerNamePuppetAgentCertname"
-      Property="PUPPET_AGENT_CERTNAME"
-      Value="[ComputerName]"
-      Execute="firstSequence" />
 
     <!-- First, save off properties specified on the command line Second,
          restore the properties set by the command line overriding the recalled
@@ -204,9 +207,6 @@
       <Custom Action='SetFromCmdLinePuppetAgentCertname' After='AppSearch'>
         CMDLINE_PUPPET_AGENT_CERTNAME
       </Custom>
-      <Custom Action='SetFromComputerNamePuppetAgentCertname' Before='AppSearch'>
-        NOT CMDLINE_PUPPET_AGENT_CERTNAME
-      </Custom>
     </InstallUISequence>
     <InstallExecuteSequence>
       <!-- INSTALLDIR -->
@@ -224,9 +224,6 @@
       <Custom Action='SetFromCmdLinePuppetAgentCertname' After='AppSearch'>
         CMDLINE_PUPPET_AGENT_CERTNAME
       </Custom>
-      <Custom Action='SetFromComputerNamePuppetAgentCertname' Before='AppSearch'>
-        NOT CMDLINE_PUPPET_AGENT_CERTNAME
-      </Custom>
     </InstallExecuteSequence>
 
     <!--
@@ -235,7 +232,6 @@
     -->
     <Feature Id="$(var.OurProductNameWord)Runtime" Title="$(var.OurProductName) Runtime" Level="1">
       <ComponentRef Id="RegistryEntries" />
-      <ComponentRef Id="PuppetConfDir" />
       <ComponentRef Id="PuppetVarDir" />
       <ComponentGroupRef Id="misc" />
       <?ifndef BUILD_UI_ONLY ?>
@@ -247,6 +243,9 @@
       <!-- We may not need an etc directory out of the box.
       <ComponentGroupRef Id="etc" />
       -->
+      <!-- The PuppetConf components are conditional on PUPPET_AGENT_CERTNAME -->
+      <ComponentRef Id="PuppetConfWithCertname" />
+      <ComponentRef Id="PuppetConfUnconditionalSettings" />
     </Feature>
   </Product>
 </Wix>

@@ -35,11 +35,13 @@
                   Text="[PUPPET_MASTER_HOSTNAME]"
                   Property="PUPPET_MASTER_HOSTNAME" />
 
+                <!-- Disabled in the GUI as per #12640
                 <Control Id="PuppetAgentCertNameText" Type="Text" X="20" Y="185" Width="290" Height="13" NoPrefix="yes"
                   Text="Certificate name of this Puppet agent:" />
                 <Control Id="PuppetAgentCertNameEdit" Type="Edit" X="20" Y="200" Width="320" Height="18"
                   Text="[PUPPET_AGENT_CERTNAME]"
                   Property="PUPPET_AGENT_CERTNAME" />
+                -->
 
                 <Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
             </Dialog>

@@ -8,11 +8,11 @@ MSI packages for Puppet on Windows systems.
 The following screen shots show the current state of the graphical installer.
 These screen shots are generated automatically.
 
-![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1329344239_0.png)
-![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1329344239_1.png)
-![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1329344239_2.png)
-![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329344239_3.png)
-![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1329344239_4.png)
+![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_0.png)
+![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_1.png)
+![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_2.png)
+![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_3.png)
+![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_4.png)
 
 # Overview #
 
@@ -98,15 +98,25 @@ The installation directory may be specified on the command line by passing the
 property.  This example logs verbosely to the `install.txt` file and performs a
 silent installation to `C:\test\puppet` which is not the default.
 
-    msiexec /qn /l*v install.txt /i puppet.msi INSTALLDIR="C:\test\puppet"
+    msiexec /qn /l*v install.txt /i puppet.msi INSTALLDIR="C:\puppet" PUPPET_MASTER_HOSTNAME="puppetmaster.lan"
 
 # Public Properties #
 
 All of these are optional and their default values are in parentheses.
 
  * `INSTALLDIR` (`"%PROGRAMFILES%\Puppet Labs\Puppet"`)
- * `PUPPET_AGENT_CERTNAME` (`[ComputerName]`)
+ * `PUPPET_AGENT_CERTNAME` (Unset, Puppet will default to using `facter fqdn`)
  * `PUPPET_MASTER_HOSTNAME` ("puppet")
+
+If the `PUPPET_AGENT_CERTNAME` property is not set on the command line when
+installing the package, then no `certname` setting will be written to
+`puppet.conf`.  There is no ability provided to configure the certificate name
+using the graphical installer, `puppet.conf` must be configured
+post-installation.  Please see [Ticket
+#12640](http://projects.puppetlabs.com/issues/12640) for information about why.
+
+The value of `PUPPET_AGENT_CERTNAME` must be lower case as per [Ticket
+1168](http://projects.puppetlabs.com/issues/1168)
 
 # Troubleshooting #
 
