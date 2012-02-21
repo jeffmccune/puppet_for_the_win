@@ -156,12 +156,12 @@
     <!-- #12475 - Specify the license. -->
     <WixVariable Id="WixUILicenseRtf" Value="conf\windows\stage\misc\LICENSE.rtf" Overridable="yes" />
     <!-- (#12521) Use local Bitmaps -->
-    <WixVariable Id="WixUIBannerBmp" Value="wix\ui\Bitmaps\bannrbmp.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="wix\ui\Bitmaps\dlgbmp.bmp" />
-    <WixVariable Id="WixUIExclamationIco" Value="wix\ui\Bitmaps\exclamic.ico" />
-    <WixVariable Id="WixUIInfoIco" Value="wix\ui\Bitmaps\info.ico" />
-    <WixVariable Id="WixUINewIco" Value="wix\ui\Bitmaps\New.ico" />
-    <WixVariable Id="WixUIUpIco" Value="wix\ui\Bitmaps\Up.ico" />
+    <WixVariable Id="WixUIBannerBmp" Value="$(var.BitmapFolder)\bannrbmp.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.BitmapFolder)\dlgbmp.bmp" />
+    <WixVariable Id="WixUIExclamationIco" Value="$(var.BitmapFolder)\exclamic.ico" />
+    <WixVariable Id="WixUIInfoIco" Value="$(var.BitmapFolder)\info.ico" />
+    <WixVariable Id="WixUINewIco" Value="$(var.BitmapFolder)\new.ico" />
+    <WixVariable Id="WixUIUpIco" Value="$(var.BitmapFolder)\up.ico" />
 
     <!-- Add/Remove Programs icon and help link -->
     <Icon Id="$(var.OurCompanyNameWord).ico" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>

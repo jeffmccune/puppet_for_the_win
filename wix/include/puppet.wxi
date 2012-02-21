@@ -28,11 +28,13 @@
     <?define OurProductNameWord="PuppetEnterprise" ?>
     <?define HelpLink="http://links.puppetlabs.com/customer-support" ?>
     <?define VersionUIString="$(var.MajorVersion).$(var.MinorVersion).$(var.BuildVersion)" ?>
+    <?define BitmapFolder="wix\ui\bitmaps" ?>
   <?else ?>
     <?define UpgradeCode="A8B348D0-998E-4A1C-9612-AFF9E01FD327" ?>
     <?define OurProductName="Puppet" ?>
     <?define OurProductNameWord="Puppet" ?>
     <?define HelpLink="http://links.puppetlabs.com/customer-support-foss" ?>
     <?define VersionUIString="$(var.PuppetDescTag)" ?>
+    <?define BitmapFolder="wix\ui\bitmaps" ?>
   <?endif ?>
 </Include>
