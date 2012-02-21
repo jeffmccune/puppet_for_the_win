@@ -60,12 +60,18 @@
               Name="Run Puppet Agent"
               Description="Run Puppet in an interactive command window"
               Target="[INSTALLDIR]bin\run_puppet_interactive.bat"
-              WorkingDirectory="bin"/>
+              Icon="PuppetShortcutIcon"
+              WorkingDirectory="bin">
+              <Icon Id="PuppetShortcutIcon" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>
+            </Shortcut>
             <Shortcut Id="FacterShortcut"
               Name="Run Facter"
               Description="Run Facter in an interactive command window"
               Target="[INSTALLDIR]bin\run_facter_interactive.bat"
-              WorkingDirectory="bin"/>
+              Icon="FacterShortcutIcon"
+              WorkingDirectory="bin">
+              <Icon Id="FacterShortcutIcon" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>
+            </Shortcut>
             <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
             <!-- This registry entry is required to be a keypath for this component -->
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"

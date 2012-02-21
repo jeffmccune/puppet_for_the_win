@@ -14,6 +14,12 @@ These screen shots are generated automatically.
 ![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_3.png)
 ![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_4.png)
 
+## Shortcut Icons ##
+
+The current icon being used looks like this:
+
+![Icons](http://dl.dropbox.com/u/17169007/img/Screen%20Shot%202012-02-20%20at%206.27.04%20PM.png)
+
 # Overview #
 
 This is a separate repository because it is meant to build MSI packages for
