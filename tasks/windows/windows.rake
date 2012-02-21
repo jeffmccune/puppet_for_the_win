@@ -11,6 +11,7 @@ rescue LoadError
   require 'rake'
 end
 
+require 'pathname'
 require 'rake/clean'
 
 # Added download task from buildr
@@ -227,11 +228,19 @@ namespace :windows do
   # High Level Tasks.  Other tasks will add themselves to these tasks
   # dependencies.
 
+  desc "Clean only wixobj files."
+  task :cleanobjects do
+    WIXOBJS.each do |wixobj|
+      rm wixobj if Pathname.new(wixobj).exist?
+    end
+  end
+
   # This is also called from the build script in the Puppet Win Builder archive.
   # This will be called AFTER the update task in a new process.
   desc "Build puppet.msi"
   task :build do |t|
     ENV['BRANDING'] ||= "foss"
+    Rake::Task["windows:cleanobjects"].execute
     Rake::Task["pkg/puppet.msi"].invoke
   end
 
@@ -239,6 +248,7 @@ namespace :windows do
   task :buildui do |t|
     ENV['BRANDING'] ||= "foss"
     ENV['BUILD_UI_ONLY'] ||= 'true'
+    Rake::Task["windows:cleanobjects"].execute
     Rake::Task["pkg/puppet_ui_only.msi"].invoke
   end
 
@@ -249,10 +259,11 @@ namespace :windows do
       puts "Warning: PE_VERSION_STRING is not set in the environment.  Defaulting to 2.5.0-0-0"
       ENV['PE_VERSION_STRING'] = '2.5.0-0-0'
     end
+    Rake::Task["windows:cleanobjects"].execute
     Rake::Task["pkg/puppetenterprise.msi"].invoke
   end
 
-  desc "Build puppet_ui_only.msi"
+  desc "Build puppetenterprise_ui_only.msi"
   task :buildenterpriseui do |t|
     ENV['BRANDING'] ||= "enterprise"
     ENV['BUILD_UI_ONLY'] ||= 'true'
@@ -260,6 +271,7 @@ namespace :windows do
       puts "Warning: PE_VERSION_STRING is not set in the environment.  Defaulting to 2.5.0-0-0"
       ENV['PE_VERSION_STRING'] = '2.5.0-0-0'
     end
+    Rake::Task["windows:cleanobjects"].execute
     Rake::Task["pkg/puppetenterprise_ui_only.msi"].invoke
   end
 
