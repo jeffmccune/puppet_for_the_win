@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
   <?define OurCompanyName="Puppet Labs"?>
+  <?define OurCompanyNameWord="PuppetLabs"?>
 
-  <!-- This variable will be substituted as much as possible
-       to make Puppet Enterprise and Puppet use similar build systems. -->
-  <?define OurProductName="Puppet" ?>
-  <?define OurProductNameWord="Puppet" ?>
+  <!-- Component Versions.  We expect the build system to define these values
+       on the command line using `git describe` -->
+  <?ifndef PuppetDescTag ?><?define PuppetDescTag="X.Y.Z-123-abcdef1" ?><?endif ?>
+  <?ifndef FacterDescTag ?><?define FacterDescTag="X.Y.Z-456-fedcba9" ?><?endif ?>
 
-  <!--
-  Versioning. These have to be changed for upgrades.
-  It's not enough to just include newer files.
-  -->
-  <?define MajorVersion="2" ?>
-  <?define MinorVersion="5" ?>
-  <?define BuildVersion="0" ?>
+  <?ifndef MajorVersion ?><?define MajorVersion="2" ?><?endif ?>
+  <?ifndef MinorVersion ?><?define MinorVersion="5" ?><?endif ?>
+  <?ifndef BuildVersion ?><?define BuildVersion="0" ?><?endif ?>
   <!-- Revision is NOT used by WiX in the upgrade procedure -->
-  <?define Revision="0" ?>
+  <?ifndef Revision ?><?define Revision="0" ?><?endif ?>
   <!-- Full version number to display -->
   <?define VersionNumber="$(var.MajorVersion).$(var.MinorVersion).$(var.BuildVersion).$(var.Revision)" ?>
-  <!--
-  Upgrade code HAS to be the same for all updates.
-  Once you've chosen it don't change it.
-  -->
-  <?define UpgradeCode="A8B348D0-998E-4A1C-9612-AFF9E01FD327" ?>
-  <!--
-  The name of your application exe file. This will be used to kill the process when updating
-  and creating the desktop shortcut
-  <?define ExeProcessName="ruby.exe" ?>
-  -->
+
+  <!-- If we have FOSS installed, we need to support "Upgrading" to enterprise -->
+  <?define ProductCode="11ACE8C2-7F7D-4A64-83DD-285CD4F92C6F" ?>
+  <!-- Upgrade code HAS to be the same for all updates.  Once you've chosen
+       it don't change it. -->
+
+  <!-- Branding (foss|enterprise) -->
+  <?if $(var.PackageBrand) = enterprise ?>
+    <?define UpgradeCode="4528C64D-5309-45AE-9757-DD6ADD8B783A" ?>
+    <?define OurProductName="Puppet Enterprise" ?>
+    <?define OurProductNameWord="PuppetEnterprise" ?>
+    <?define HelpLink="http://links.puppetlabs.com/customer-support" ?>
+    <?define VersionUIString="$(var.MajorVersion).$(var.MinorVersion).$(var.BuildVersion)" ?>
+  <?else ?>
+    <?define UpgradeCode="A8B348D0-998E-4A1C-9612-AFF9E01FD327" ?>
+    <?define OurProductName="Puppet" ?>
+    <?define OurProductNameWord="Puppet" ?>
+    <?define HelpLink="http://links.puppetlabs.com/customer-support-foss" ?>
+    <?define VersionUIString="$(var.PuppetDescTag)" ?>
+  <?endif ?>
 </Include>

@@ -19,6 +19,65 @@ require 'rake/downloadtask'
 # Where we're situated in the filesystem relative to the Rakefile
 TOPDIR=File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
 
+# This method should be called by candle to figure out the list of variables
+# we're defining "outside" the build system.  Git describe and what have you.
+# This is ultimately set by the environment variable BRANDING which could be
+# foss|enterprise
+def variable_define_flags
+  flags = Hash.new
+  flags['PuppetDescTag'] = describe 'downloads/puppet'
+  flags['FacterDescTag'] = describe 'downloads/facter'
+
+  # The regular expression with back reference groups for version string
+  # parsing.  We re-use this against either git-describe on Puppet or on
+  # ENV['PE_VERSION_STRING'] which should match the same pattern.  NOTE that we
+  # can only use numbers in the product version and that product version
+  # impacts major upgrades: ProductVersion Property is defined as
+  # [0-255].[0-255].[0-65535] See:
+  # http://stackoverflow.com/questions/9312221/msi-version-numbers
+  # This regular expression focuses on the major numbers and discards things like "rc1" in the string
+  version_regexps = [
+    /(\d+)[^.]*?\.(\d+)[^.]*?\.(\d+)[^.]*?-(\d+)-(.*)/,
+    /(\d+)[^.]*?\.(\d+)[^.]*?\.(\d+)[^.]*?\.(\d+)/,
+    /(\d+)[^.]*?\.(\d+)[^.]*?\.(\d+)[^.]*?/,
+  ]
+
+  case ENV['BRANDING']
+  when /enterprise/i
+    flags['PackageBrand'] = "enterprise"
+    msg = "Could not parse PE_VERSION_STRING env variable.  Set it with something like PE_VERSION_STRING=2.5.0"
+    # The Package Version components for FOSS
+    match_data = nil
+    version_regexps.find(lambda { raise ArgumentError, msg }) do |re|
+      match_data = ENV['PE_VERSION_STRING'].match re
+    end
+    flags['MajorVersion'] = match_data[1]
+    flags['MinorVersion'] = match_data[2]
+    flags['BuildVersion'] = match_data[3]
+    flags['Revision'] = match_data[4] || 0
+  else
+    flags['PackageBrand'] = "foss"
+    msg = "Could not parse git-describe annotated tag for Puppet"
+    # The Package Version components for FOSS
+    match_data = nil
+    version_regexps.find(lambda { raise ArgumentError, msg }) do |re|
+      match_data = flags['PuppetDescTag'].match re
+    end
+    flags['MajorVersion'] = match_data[1]
+    flags['MinorVersion'] = match_data[2]
+    flags['BuildVersion'] = match_data[3]
+    flags['Revision'] = match_data[4] || 0
+  end
+
+  # Return the string of flags suitable for candle
+  flags.inject([]) { |a, (k,v)| a << "-d#{k}=\"#{v}\"" }.join " "
+end
+
+def describe(dir)
+  @git_tags ||= Hash.new
+  @git_tags[dir] ||= Dir.chdir(dir) { %x{git describe}.chomp }
+end
+
 # Produce a wixobj from a wxs file.
 def candle(wxs_file, flags=[])
   flags_string = flags.join(' ')
@@ -26,6 +85,7 @@ def candle(wxs_file, flags=[])
     flags_string << " -dBUILD_UI_ONLY"
   end
   flags_string << " -dlicenseRtf=conf/windows/stage/misc/LICENSE.rtf"
+  flags_string << " " << variable_define_flags
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
     sh "candle -ext WixUIExtension -arch x86 #{flags_string} #{File.basename(wxs_file)}"
   end
@@ -170,10 +230,38 @@ namespace :windows do
   # This is also called from the build script in the Puppet Win Builder archive.
   # This will be called AFTER the update task in a new process.
   desc "Build puppet.msi"
-  task :build => "pkg/puppet.msi"
+  task :build do |t|
+    ENV['BRANDING'] ||= "foss"
+    Rake::Task["pkg/puppet.msi"].invoke
+  end
 
   desc "Build puppet_ui_only.msi"
-  task :buildui => "pkg/puppet_ui_only.msi"
+  task :buildui do |t|
+    ENV['BRANDING'] ||= "foss"
+    ENV['BUILD_UI_ONLY'] ||= 'true'
+    Rake::Task["pkg/puppet_ui_only.msi"].invoke
+  end
+
+  desc "Build puppetenterprise.msi"
+  task :buildenterprise do |t|
+    ENV['BRANDING'] ||= "enterprise"
+    if not ENV['PE_VERSION_STRING']
+      puts "Warning: PE_VERSION_STRING is not set in the environment.  Defaulting to 2.5.0-0-0"
+      ENV['PE_VERSION_STRING'] = '2.5.0-0-0'
+    end
+    Rake::Task["pkg/puppetenterprise.msi"].invoke
+  end
+
+  desc "Build puppet_ui_only.msi"
+  task :buildenterpriseui do |t|
+    ENV['BRANDING'] ||= "enterprise"
+    ENV['BUILD_UI_ONLY'] ||= 'true'
+    if not ENV['PE_VERSION_STRING']
+      puts "Warning: PE_VERSION_STRING is not set in the environment.  Defaulting to 2.5.0-0-0"
+      ENV['PE_VERSION_STRING'] = '2.5.0-0-0'
+    end
+    Rake::Task["pkg/puppetenterprise_ui_only.msi"].invoke
+  end
 
   desc "Download example"
   task :download => DOWNLOADS
@@ -263,12 +351,23 @@ namespace :windows do
     task :stage => ["stagedir/#{app}"]
   end
 
+  # REVISIT - DRY THIS SECTION UP, lots of copy paste code here...
   file 'pkg/puppet.msi' => WIXOBJS + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
     sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
+  file 'pkg/puppetenterprise.msi' => WIXOBJS + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
+    objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
+    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+  end
+
   file 'pkg/puppet_ui_only.msi' => WIXOBJS_MIN + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
+    objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
+    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+  end
+
+  file 'pkg/puppetenterprise_ui_only.msi' => WIXOBJS_MIN + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
     sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end

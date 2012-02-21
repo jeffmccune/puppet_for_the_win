@@ -8,11 +8,11 @@ MSI packages for Puppet on Windows systems.
 The following screen shots show the current state of the graphical installer.
 These screen shots are generated automatically.
 
-![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_0.png)
-![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_1.png)
-![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_2.png)
-![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_3.png)
-![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_4.png)
+![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_0.png)
+![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_1.png)
+![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_2.png)
+![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_3.png)
+![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_4.png)
 
 ## Shortcut Icons ##
 
@@ -123,6 +123,15 @@ post-installation.  Please see [Ticket
 
 The value of `PUPPET_AGENT_CERTNAME` must be lower case as per [Ticket
 1168](http://projects.puppetlabs.com/issues/1168)
+
+# Add Remove Programs #
+
+The installer is integrated well with the Add or Remove Programs feature of
+Microsoft Windows.  The following screen shots show the current look:
+
+![Add Remove Programs 1](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_5.png)
+![Add Remove Programs 2](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_6.png)
+![Add Remove Programs 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_7.png)
 
 # Troubleshooting #
 

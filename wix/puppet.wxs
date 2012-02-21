@@ -13,7 +13,7 @@
   http://wix.sourceforge.net/manual-wix3/major_upgrade.htm
   Name is made of localized product name and version number.
   -->
-  <Product Id="CBCC929F-6B12-4A76-8E8E-64577256C825" UpgradeCode="$(var.UpgradeCode)"
+  <Product Id="$(var.ProductCode)" UpgradeCode="$(var.UpgradeCode)"
     Name="$(var.OurProductName)"
 
     Language='1033'
@@ -162,6 +162,14 @@
     <WixVariable Id="WixUIInfoIco" Value="wix\ui\Bitmaps\info.ico" />
     <WixVariable Id="WixUINewIco" Value="wix\ui\Bitmaps\New.ico" />
     <WixVariable Id="WixUIUpIco" Value="wix\ui\Bitmaps\Up.ico" />
+
+    <!-- Add/Remove Programs icon and help link -->
+    <Icon Id="$(var.OurCompanyNameWord).ico" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="$(var.OurCompanyNameWord).ico" />
+    <Property Id="ARPHELPLINK" Value="$(var.HelpLink)" />
+
+    <!-- This property is used in the localization strings for the GUI -->
+    <Property Id="VersionUIString" Value="$(var.VersionUIString)" />
 
     <!--
       Remembered Property Pattern
