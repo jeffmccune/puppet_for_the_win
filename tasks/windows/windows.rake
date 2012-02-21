@@ -276,7 +276,7 @@ namespace :windows do
   desc 'Install the MSI using msiexec'
   task :install => [ 'pkg/puppet.msi', 'pkg' ] do |t|
     Dir.chdir "pkg" do
-      sh 'msiexec /q /l*v install.txt /i puppet.msi INSTALLDIR="C:\test\puppet" PUPPET_MASTER_HOSTNAME="puppetmaster"'
+      sh 'msiexec /q /l*v install.txt /i puppet.msi INSTALLDIR="C:\puppet" PUPPET_MASTER_HOSTNAME="puppetmaster" PUPPET_AGENT_CERTNAME="windows.vm"'
     end
   end
 
