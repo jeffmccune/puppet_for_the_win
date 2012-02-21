@@ -119,7 +119,7 @@ installing the package, then no `certname` setting will be written to
 `puppet.conf`.  There is no ability provided to configure the certificate name
 using the graphical installer, `puppet.conf` must be configured
 post-installation.  Please see [Ticket
-#12640](http://projects.puppetlabs.com/issues/12640) for information about why.
+12640](http://projects.puppetlabs.com/issues/12640) for information about why.
 
 The value of `PUPPET_AGENT_CERTNAME` must be lower case as per [Ticket
 1168](http://projects.puppetlabs.com/issues/1168)
