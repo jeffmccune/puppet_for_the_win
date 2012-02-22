@@ -14,6 +14,12 @@ These screen shots are generated automatically.
 ![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_3.png)
 ![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1329775317_4.png)
 
+## Shortcut Icons ##
+
+The current icon being used looks like this:
+
+![Icons](http://dl.dropbox.com/u/17169007/img/Screen%20Shot%202012-02-20%20at%206.27.04%20PM.png)
+
 # Overview #
 
 This is a separate repository because it is meant to build MSI packages for
@@ -113,7 +119,7 @@ installing the package, then no `certname` setting will be written to
 `puppet.conf`.  There is no ability provided to configure the certificate name
 using the graphical installer, `puppet.conf` must be configured
 post-installation.  Please see [Ticket
-#12640](http://projects.puppetlabs.com/issues/12640) for information about why.
+12640](http://projects.puppetlabs.com/issues/12640) for information about why.
 
 The value of `PUPPET_AGENT_CERTNAME` must be lower case as per [Ticket
 1168](http://projects.puppetlabs.com/issues/1168)

@@ -52,10 +52,40 @@
       INSTALLDIR is the root of our application, which is C:/puppetlabs for us.
     -->
     <Directory Id='TARGETDIR' Name='SourceDir'>
+      <!-- The start menu shortcuts -->
+      <Directory Id='ProgramMenuFolder'>
+        <Directory Id='PuppetShortcutDir' Name="$(var.OurProductName)">
+          <Component Id="PuppetShortcuts" Guid="0B69C3FF-8967-4F8A-AC71-0EAE34E91ACC">
+            <Shortcut Id="PuppetShortcut"
+              Name="Run Puppet Agent"
+              Description="Run Puppet in an interactive command window"
+              Target="[INSTALLDIR]bin\run_puppet_interactive.bat"
+              Icon="PuppetShortcutIcon"
+              WorkingDirectory="bin">
+              <Icon Id="PuppetShortcutIcon" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>
+            </Shortcut>
+            <Shortcut Id="FacterShortcut"
+              Name="Run Facter"
+              Description="Run Facter in an interactive command window"
+              Target="[INSTALLDIR]bin\run_facter_interactive.bat"
+              Icon="FacterShortcutIcon"
+              WorkingDirectory="bin">
+              <Icon Id="FacterShortcutIcon" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>
+            </Shortcut>
+            <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+            <!-- This registry entry is required to be a keypath for this component -->
+            <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+              Name="installed" Value="1" Type="integer" KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+      <!-- The application itself -->
       <Directory Id='ProgramFilesFolder' >
         <Directory Id='PuppetLabs' Name="$(var.OurCompanyName)">
           <Directory Id='INSTALLDIR' Name="$(var.OurProductNameWord)">
             <Directory Id='sys' Name='sys'>
+            </Directory>
+            <Directory Id='bin' Name='bin'>
             </Directory>
           </Directory>
         </Directory>
@@ -233,13 +263,14 @@
     <Feature Id="$(var.OurProductNameWord)Runtime" Title="$(var.OurProductName) Runtime" Level="1">
       <ComponentRef Id="RegistryEntries" />
       <ComponentRef Id="PuppetVarDir" />
-      <ComponentGroupRef Id="misc" />
+      <ComponentRef Id="PuppetShortcuts" />
       <?ifndef BUILD_UI_ONLY ?>
       <ComponentGroupRef Id="ruby" />
       <ComponentGroupRef Id="puppet" />
       <ComponentGroupRef Id="facter" />
-      <ComponentGroupRef Id="bin" />
       <?endif?>
+      <ComponentGroupRef Id="bin" />
+      <ComponentGroupRef Id="misc" />
       <!-- We may not need an etc directory out of the box.
       <ComponentGroupRef Id="etc" />
       -->

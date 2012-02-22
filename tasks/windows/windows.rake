@@ -159,7 +159,7 @@ namespace :windows do
   WIXOBJS = (WXSFILES + WXS_FRAGMENTS).ext('wixobj')
   # UI Only objects we need to link.  Filter out the large objects like Ruby, Puppet and Facter
   # These objects need to match up to the preprocessor conditional in puppet.wxs
-  WIXOBJS_MIN = (WXSFILES + WXS_FRAGMENTS.find_all { |f| f =~ /misc/ }).ext 'wixobj'
+  WIXOBJS_MIN = (WXSFILES + WXS_FRAGMENTS.find_all { |f| f =~ /misc|bin/ }).ext 'wixobj'
   # These directories should be unpacked into stagedir/sys
   SYSTOOLS = FEATURES.collect { |fn| File.join("stagedir", "sys", fn) }
 
