@@ -112,7 +112,7 @@
     <String Id="InstallDirDlg_Title" Overridable="yes"><!-- _locID_text="InstallDirDlg_Title" _locComment="InstallDirDlg_Title" -->[ProductName] Setup</String>
     <String Id="InstallDirDlgChange" Overridable="yes"><!-- _locID_text="InstallDirDlgChange" _locComment="InstallDirDlgChange" -->&amp;Change...</String>
     <String Id="InstallDirDlgTitle" Overridable="yes"><!-- _locID_text="InstallDirDlgTitle" _locComment="InstallDirDlgTitle" -->{\PuppetLabs_Font_Title_White}Destination Folder</String>
-    <String Id="InstallDirDlgDescription" Overridable="yes"><!-- _locID_text="InstallDirDlgDescription" _locComment="InstallDirDlgDescription" -->{\PuppetLabs_Font_Normal_White}Click Next to install to the default folder or click Change to choose another.</String>
+    <String Id="InstallDirDlgDescription" Overridable="yes"><!-- _locID_text="InstallDirDlgDescription" _locComment="InstallDirDlgDescription" -->{\PuppetLabs_Font_Normal_White}Click Next to install to the default folder.</String>
     <String Id="InstallDirDlgBannerBitmap" Overridable="yes"><!-- _locID_text="InstallDirDlgBannerBitmap" _locComment="InstallDirDlgBannerBitmap" -->WixUI_Bmp_Banner</String>
     <String Id="InstallDirDlgFolderLabel" Overridable="yes"><!-- _locID_text="InstallDirDlgFolderLabel" _locComment="InstallDirDlgFolderLabel" -->Install [ProductName] to:</String>
 
@@ -256,8 +256,8 @@
 
     <String Id="WelcomeDlg_Title" Overridable="yes"><!-- _locID_text="WelcomeDlg_Title" _locComment="WelcomeDlg_Title" -->[ProductName] Setup</String>
     <String Id="WelcomeDlgBitmap" Overridable="yes"><!-- _locID_text="WelcomeDlgBitmap" _locComment="WelcomeDlgBitmap" -->WixUI_Bmp_Dialog</String>
-    <String Id="WelcomeDlgDescription" Overridable="yes"><!-- _locID_text="WelcomeDlgDescription" _locComment="WelcomeDlgDescription" -->This will install [ProductName] [Version] and configure the system to fetch configurations every half hour.&#13;&#10;&#13;&#10;This version of [ProductName] will work with puppet masters running Puppet 2.7 or higher, including all Puppet Enterprise releases since 2.0.</String>
-    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes"><!-- _locID_text="WelcomeUpdateDlgDescriptionUpdate" _locComment="WelcomeUpdateDlgDescriptionUpdate" -->This will update [ProductName] [Version] and configure the system to fetch configurations every half hour.  This version of [ProductName] will work with puppet masters running Puppet 2.7 or higher, including all Puppet Enterprise releases since 2.0.</String>
+    <String Id="WelcomeDlgDescription" Overridable="yes"><!-- _locID_text="WelcomeDlgDescription" _locComment="WelcomeDlgDescription" -->This will install [ProductName] [VersionUIString] and configure the system to fetch configurations every half hour.&#13;&#10;&#13;&#10;This version of [ProductName] will work with puppet masters running Puppet 2.7 or higher, including all Puppet Enterprise releases since 2.0.</String>
+    <String Id="WelcomeUpdateDlgDescriptionUpdate" Overridable="yes"><!-- _locID_text="WelcomeUpdateDlgDescriptionUpdate" _locComment="WelcomeUpdateDlgDescriptionUpdate" -->This will update [ProductName] to version [VersionUIString] and configure the system to fetch configurations every half hour.  This version of [ProductName] will work with puppet masters running Puppet 2.7 or higher, including all Puppet Enterprise releases since 2.0.</String>
     <String Id="WelcomeDlgTitle" Overridable="yes"><!-- _locID_text="WelcomeDlgTitle" _locComment="WelcomeDlgTitle" -->{\WixUI_Font_Bigger}Welcome to the [ProductName] Setup Wizard</String>
 
     <String Id="WelcomeEulaDlg_Title" Overridable="yes"><!-- _locID_text="WelcomeEulaDlg_Title" _locComment="WelcomeEulaDlg_Title" -->[ProductName] Setup</String>

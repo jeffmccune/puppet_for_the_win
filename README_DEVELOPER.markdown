@@ -62,11 +62,69 @@ explicitly set by the user.
 To build this special package an environment variable must also be set
 like so:
 
-    rake windows:buildui BUILD_UI_ONLY=true
+    rake windows:buildui
 
 The resulting package will be in `pkg/puppet_ui_only.msi`
 
 This is MUCH faster than building the full package.
+
+For Puppet Enterprise the following build task will build the UI only.
+
+    rake windows:buildenterpriseui
+
+The resulting package will be in `pkg/puppetenterprise_ui_only.msi`
+
+# Branding #
+
+This build system currently packages the same software components regardless of
+the branding.  The build system will produce packages for Puppet Enterprise and
+for Puppet.  The major difference between these two different packages are the
+graphics used in the graphical installation, the version numbers embedded
+into the package, and the reference information and documentation.
+
+The version identifier will be calculated based on the output of `git describe`
+against the Puppet repository currently checked out.  The numeric values for
+each of the major version components will be used and alphanumeric substrings
+will be stripped.
+
+For example, if `git describe` returns `2.7.10-257-g1518894` then the package
+version will become `2.7.10.257`.  This corresponds to the following mapping to
+windows terminology for version strings.
+
+ * Major Version = 2
+ * Minor Version = 7
+ * Build = 10
+ * Revision = 257
+
+From a support perspective, if I'm looking at a version string inside of
+Windows, I know this package was built from a version of Puppet 257 commits
+ahead of the 2.7.10 annotated tag in version control.
+
+The welcome screen itself will display the actual output of `git describe`
+which can identify the exact head used to build the package.
+
+## Puppet ##
+
+To build the puppet.msi package, simply execute:
+
+    rake windows:build
+
+
+## Puppet Enterprise ##
+
+To build the puppetenterprise.msi package, simply execute:
+
+    rake windows:buildenterprise PE_VERSION_STRING=2.5.0
+
+Since the build system cannot automatically determine the version of Puppet
+Enterprise being packaged the version information needs to be specified as an
+environment variable when compiling the package.  This version string will
+result in the following windows versions:
+
+ * Major Version = 2
+ * Minor Version = 5
+ * Build = 0
+ * Revision = 0
 
 # Localization Strings #
 
