@@ -18,7 +18,7 @@
 
     Language='1033'
     Codepage='1252'
-    Version="$(var.VersionNumber)"
+    Version="$(var.ProductVersionNumber)"
     Manufacturer="$(var.OurCompanyName)">
 
     <Package
@@ -28,6 +28,11 @@
       Comments="http://www.puppetlabs.com/"
       Compressed="yes"
       />
+
+    <!-- We allow "downgrades" to support Puppet to Puppet Enterprise
+         "upgrades" since these versions will not compare well.  e.g. we need
+         to upgrade from Puppet 2.7.10 to Puppet Enterprise 2.5.0 -->
+    <MajorUpgrade AllowDowngrades="yes" />
 
     <!-- Note, this UI element must come _after_ the Package element -->
     <UI>
