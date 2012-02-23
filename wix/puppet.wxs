@@ -162,7 +162,7 @@
     <WixVariable Id="WixUILicenseRtf" Value="conf\windows\stage\misc\LICENSE.rtf" Overridable="yes" />
     <!-- (#12521) Use local Bitmaps -->
     <WixVariable Id="WixUIBannerBmp" Value="$(var.BitmapFolder)\bannrbmp.bmp" />
-    <WixVariable Id="WixUIDialogBmp" Value="$(var.BitmapFolder)\dlgbmp.bmp" />
+    <WixVariable Id="WixUIDialogBmp" Value="$(var.BitmapFolder)\$(var.DialogBitmap)" />
     <WixVariable Id="WixUIExclamationIco" Value="$(var.BitmapFolder)\exclamic.ico" />
     <WixVariable Id="WixUIInfoIco" Value="$(var.BitmapFolder)\info.ico" />
     <WixVariable Id="WixUINewIco" Value="$(var.BitmapFolder)\new.ico" />

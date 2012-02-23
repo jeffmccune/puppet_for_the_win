@@ -38,11 +38,13 @@
     <?define HelpLink="http://links.puppetlabs.com/customer-support" ?>
     <?define VersionUIString="$(var.MajorVersion).$(var.MinorVersion).$(var.BuildVersion)" ?>
     <?define BitmapFolder="wix\ui\bitmaps" ?>
+    <?define DialogBitmap="dlgbmp-pe.bmp" ?>
   <?else ?>
     <?define OurProductName="Puppet" ?>
     <?define OurProductNameWord="Puppet" ?>
     <?define HelpLink="http://links.puppetlabs.com/customer-support-foss" ?>
     <?define VersionUIString="$(var.PuppetDescTag)" ?>
     <?define BitmapFolder="wix\ui\bitmaps" ?>
+    <?define DialogBitmap="dlgbmp-foss.bmp" ?>
   <?endif ?>
 </Include>
