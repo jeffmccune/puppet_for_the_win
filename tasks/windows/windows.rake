@@ -336,8 +336,8 @@ namespace :windows do
   task :checkout, [:puppet_ref, :facter_ref] => [:clone] do |t, args|
     # args.with_defaults(:puppet_ref => 'refs/remotes/origin/2.7.x',
     #                    :facter_ref => 'refs/remotes/origin/1.6.x')
-    args.with_defaults(:puppet_ref => 'refs/tags/2.7.9',
-                       :facter_ref => 'refs/tags/1.6.4')
+    args.with_defaults(:puppet_ref => 'origin/2.7.x',
+                       :facter_ref => 'origin/1.6.x')
     # This is an example of how to invoke other tasks that take parameters from
     # a task that takes parameters.
     Rake::Task["windows:checkout.facter"].invoke(args[:facter_ref])
