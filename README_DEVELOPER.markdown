@@ -167,6 +167,21 @@ download from if the file doesn't exist locally.  To use the new zip file
 delete the previous one from `downloads/ruby.zip` or use the `rake clobber`
 task.
 
+# Documentation Links #
+
+Start Menu Shortcuts are provided to online documentation.  The method we're
+employing to create these links is a little strange.  We are not using the
+[InternetShortcut
+Element](http://wix.sourceforge.net/manual-wix3/util_xsd_internetshortcut.htm)
+because this element does not allow us to add a description or an Icon.
+
+Instead, we use the IniFile Element to write out a file with a `.url` extension
+into the documentation folder of the installation directory.  We then create
+traditional shortcuts to these special `.url` files.  This allows us to add a
+description and an Icon to the shortcut entry.
+
+![Doc Shortcuts](http://dl.dropbox.com/u/17169007/img/screenshot_1330369100_0_documentation.png)
+
 # Ruby Debug #
 
 I'm debugging using Cygwin Ruby with rubygems installed via `setup.rb`.  Here's how to install the ruby-debug gem:
