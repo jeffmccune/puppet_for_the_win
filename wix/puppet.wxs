@@ -42,6 +42,15 @@
          WIXUI_INSTALLDIR with a value of the ID of the directory you want the
          user to be able to specify the location of. -->
       <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
+      <!-- This text is placed as a literal string in the GUI -->
+      <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="Manage your first resources on this node:
+http://links.puppetlabs.com/windows_starting_out
+
+Explore the Puppet community:
+http://links.puppetlabs.com/windows_community
+
+Get Support:
+http://links.puppetlabs.com/windows_support" />
     </UI>
 
     <Media Id="1"
@@ -87,7 +96,7 @@
       <!-- The application itself -->
       <Directory Id='ProgramFilesFolder' >
         <Directory Id='PuppetLabs' Name="$(var.OurCompanyName)">
-          <Directory Id='INSTALLDIR' Name="$(var.OurProductNameWord)">
+          <Directory Id='INSTALLDIR' Name="$(var.OurProductName)">
             <Directory Id='sys' Name='sys'>
             </Directory>
             <Directory Id='bin' Name='bin'>
