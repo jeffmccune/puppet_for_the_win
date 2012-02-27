@@ -155,7 +155,7 @@ namespace :windows do
 
   # These translate to ZIP files we'll download
   # FEATURES = %w{ ruby git wix misc }
-  FEATURES = %w{ ruby }
+  FEATURES = %w{ ruby tools }
   # These are the applications we're packaging from VCS source
   APPS = %w{ facter puppet }
   # Thse are the pre-compiled things we need to stage and include in
@@ -204,7 +204,8 @@ namespace :windows do
   # WXS Fragments could have different types of sources and are generated
   # during the build process by heat.exe
   WXS_FRAGMENTS_HASH = {
-    'ruby' => { :src => 'stagedir/sys/ruby' },
+    'tools'  => { :src => 'stagedir/sys/tools' },
+    'ruby'   => { :src => 'stagedir/sys/ruby' },
     'puppet' => { :src => 'stagedir/puppet' },
     'facter' => { :src => 'stagedir/facter' },
   }

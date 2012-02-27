@@ -1,3 +1,4 @@
+@ECHO OFF
 REM This is the parent directory of the directory containing this script.
 SET PL_BASEDIR=%~dp0..
 REM Avoid the nasty \..\ littering the paths.
@@ -15,7 +16,7 @@ SHIFT
 SET PUPPET_DIR=%PL_BASEDIR%\puppet
 SET FACTER_DIR=%PL_BASEDIR%\facter
 
-SET PATH=%PUPPET_DIR%\bin;%FACTER_DIR%\bin;%PL_BASEDIR%\bin;%PL_BASEDIR%\sys\ruby\bin;%PATH%
+SET PATH=%PUPPET_DIR%\bin;%FACTER_DIR%\bin;%PL_BASEDIR%\bin;%PL_BASEDIR%\sys\ruby\bin;%PL_BASEDIR%\sys\tools\bin;%PATH%
 
 REM Set the RUBY LOAD_PATH using the RUBYLIB environment variable
 SET RUBYLIB=%PUPPET_DIR%\lib;%FACTER_DIR%\lib;%RUBYLIB%

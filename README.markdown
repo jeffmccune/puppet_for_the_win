@@ -20,6 +20,13 @@ The current icon being used looks like this:
 
 ![Icons](http://dl.dropbox.com/u/17169007/img/Screen%20Shot%202012-02-20%20at%206.27.04%20PM.png)
 
+## UAC Integration ##
+
+When running Puppet and Facter interactively using the Start Menu shortcuts,
+the process will automatically request Administrator rights using UAC:
+
+![UAC Prompt](http://dl.dropbox.com/u/17169007/img/screenshot_1330369084_0_UAC.png)
+
 # Overview #
 
 This is a separate repository because it is meant to build MSI packages for

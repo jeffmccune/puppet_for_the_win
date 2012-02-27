@@ -288,6 +288,7 @@ http://links.puppetlabs.com/windows_support" />
       <ComponentRef Id="PuppetShortcuts" />
       <?ifndef BUILD_UI_ONLY ?>
       <ComponentGroupRef Id="ruby" />
+      <ComponentGroupRef Id="tools" />
       <ComponentGroupRef Id="puppet" />
       <ComponentGroupRef Id="facter" />
       <?endif?>
