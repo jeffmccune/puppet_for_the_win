@@ -114,6 +114,22 @@ def unzip(zip_file, dir)
   end
 end
 
+def upload(zip_file)
+  Dir.chdir TOPDIR do
+    Dir.chdir File.dirname(zip_file) do
+      sh "rsync -avxHP #{File.basename(zip_file)} downloads.puppetlabs.com:/opt/downloads/development/ftw/"
+    end
+  end
+end
+
+def rezip(zip_file, dir)
+  Dir.chdir TOPDIR do
+    Dir.chdir File.dirname(dir) do
+      sh "7za -y a #{File.join(TOPDIR, zip_file)} #{File.basename(dir)}"
+    end
+  end
+end
+
 def gitclone(target, uri)
   Dir.chdir(File.dirname(target)) do
     sh "git clone #{uri} #{File.basename(target)}"
@@ -223,6 +239,30 @@ namespace :windows do
   WIXOBJS_MIN = (WXSFILES + WXS_FRAGMENTS.find_all { |f| f =~ /misc|bin/ }).ext 'wixobj'
   # These directories should be unpacked into stagedir/sys
   SYSTOOLS = FEATURES.collect { |fn| File.join("stagedir", "sys", fn) }
+
+  # Update the ruby archive.  Helpful after updating Gems
+  desc "Repack the zip archives"
+  task :repack => ["stagedir/sys", "downloads"] do |t|
+    Dir.chdir TOPDIR do
+      Dir.chdir "stagedir/sys" do
+        Dir['*'].each do |d|
+          rezip("downloads/#{d}.zip", "stagedir/sys/#{d}")
+        end
+      end
+    end
+  end
+
+  # Upload the repacked ruby zip file.  Helpful after updating Gems
+  desc "Upload the zip archives archive"
+  task :upload => ["downloads"] do |t|
+    Dir.chdir TOPDIR do
+      Dir.chdir "downloads" do
+        Dir['*.zip'].each do |zip|
+          upload "downloads/#{zip}"
+        end
+      end
+    end
+  end
 
   task :default => :build
   # High Level Tasks.  Other tasks will add themselves to these tasks
