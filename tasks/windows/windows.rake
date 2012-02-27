@@ -88,7 +88,7 @@ def candle(wxs_file, flags=[])
   flags_string << " -dlicenseRtf=conf/windows/stage/misc/LICENSE.rtf"
   flags_string << " " << variable_define_flags
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
-    sh "candle -ext WixUIExtension -arch x86 #{flags_string} #{File.basename(wxs_file)}"
+    sh "candle -ext WiXUtilExtension -ext WixUIExtension -arch x86 #{flags_string} #{File.basename(wxs_file)}"
   end
 end
 
@@ -407,22 +407,22 @@ namespace :windows do
   # REVISIT - DRY THIS SECTION UP, lots of copy paste code here...
   file 'pkg/puppet.msi' => WIXOBJS + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
-    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+    sh "light -ext WiXUtilExtension -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
   file 'pkg/puppetenterprise.msi' => WIXOBJS + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
-    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+    sh "light -ext WiXUtilExtension -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
   file 'pkg/puppet_ui_only.msi' => WIXOBJS_MIN + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
-    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+    sh "light -ext WiXUtilExtension -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
   file 'pkg/puppetenterprise_ui_only.msi' => WIXOBJS_MIN + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
-    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+    sh "light -ext WiXUtilExtension -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
   desc 'Install the MSI using msiexec'
