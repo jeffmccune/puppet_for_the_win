@@ -1,3 +1,2 @@
 @echo Running puppet on demand ...
-@call puppet.bat agent --test %*
-@PAUSE
+@"%~dp0..\sys\tools\bin\elevate.exe" "%~dp0puppet_interactive.bat"

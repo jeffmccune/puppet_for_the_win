@@ -1,3 +1,2 @@
 @echo Running facter on demand ...
-@call facter.bat --puppet %*
-@PAUSE
+@"%~dp0..\sys\tools\bin\elevate.exe" "%~dp0facter_interactive.bat"

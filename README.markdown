@@ -8,17 +8,24 @@ MSI packages for Puppet on Windows systems.
 The following screen shots show the current state of the graphical installer.
 These screen shots are generated automatically.
 
-![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1330369083_0.png)
-![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1330369083_1.png)
-![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1330369083_2.png)
-![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1330369083_3.png)
-![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1330369083_4.png)
+![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1330385269_0.png)
+![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1330385269_1.png)
+![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1330385269_2.png)
+![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1330385269_3.png)
+![Screen 4](http://dl.dropbox.com/u/17169007/img/screenshot_1330385269_4.png)
 
 ## Shortcut Icons ##
 
 The current icon being used looks like this:
 
-![Icons](http://dl.dropbox.com/u/17169007/img/Screen%20Shot%202012-02-20%20at%206.27.04%20PM.png)
+![Icons](http://dl.dropbox.com/u/17169007/img/screenshot_1330369100_0_documentation.png)
+
+## UAC Integration ##
+
+When running Puppet and Facter interactively using the Start Menu shortcuts,
+the process will automatically request Administrator rights using UAC:
+
+![UAC Prompt](http://dl.dropbox.com/u/17169007/img/screenshot_1330369084_0_UAC.png)
 
 # Overview #
 

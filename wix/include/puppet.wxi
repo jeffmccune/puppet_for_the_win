@@ -31,18 +31,24 @@
        IF IT CHANGES. REALLY!  DON'T DO IT! -->
   <?define UpgradeCode="2AD3D11C-61B3-4710-B106-B4FDEC5FA358" ?>
 
+  <?define CommunityLink="http://links.puppetlabs.com/windows-installer-starting-out" ?>
+
   <!-- Branding (foss|enterprise) -->
   <?if $(var.PackageBrand) = enterprise ?>
     <?define OurProductName="Puppet Enterprise" ?>
     <?define OurProductNameWord="PuppetEnterprise" ?>
-    <?define HelpLink="http://links.puppetlabs.com/customer-support" ?>
+    <?define NextStepLink="http://links.puppetlabs.com/windows-installer-next-steps-pe" ?>
+    <?define HelpLink="http://links.puppetlabs.com/customer-support-pe" ?>
+    <?define ManualLink="http://links.puppetlabs.com/windows-manual-pe" ?>
     <?define VersionUIString="$(var.MajorVersion).$(var.MinorVersion).$(var.BuildVersion)" ?>
     <?define BitmapFolder="wix\ui\bitmaps" ?>
     <?define DialogBitmap="dlgbmp-pe.bmp" ?>
   <?else ?>
     <?define OurProductName="Puppet" ?>
     <?define OurProductNameWord="Puppet" ?>
+    <?define NextStepLink="http://links.puppetlabs.com/windows-installer-next-steps-foss" ?>
     <?define HelpLink="http://links.puppetlabs.com/customer-support-foss" ?>
+    <?define ManualLink="http://links.puppetlabs.com/windows-manual-foss" ?>
     <?define VersionUIString="$(var.PuppetDescTag)" ?>
     <?define BitmapFolder="wix\ui\bitmaps" ?>
     <?define DialogBitmap="dlgbmp-foss.bmp" ?>

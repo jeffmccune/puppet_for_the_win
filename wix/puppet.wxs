@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='windows-1252'?>
-<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'>
+<Wix xmlns='http://schemas.microsoft.com/wix/2006/wi'
+  xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <!--
   This is how to include wxi files.  We expect this file to define variables
   like the version numbers and the upgrade UUID.
@@ -43,14 +44,7 @@
          user to be able to specify the location of. -->
       <Property Id="WIXUI_INSTALLDIR" Value="INSTALLDIR" />
       <!-- This text is placed as a literal string in the GUI -->
-      <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="Manage your first resources on this node:
-http://links.puppetlabs.com/windows_starting_out
-
-Explore the Puppet community:
-http://links.puppetlabs.com/windows_community
-
-Get Support:
-http://links.puppetlabs.com/windows_support" />
+      <Property Id="WIXUI_EXITDIALOGOPTIONALTEXT" Value="Manage your first resources on this node, explore the Puppet community and get support using the shortcuts in the Documentation folder of your Start Menu." />
     </UI>
 
     <Media Id="1"
@@ -91,6 +85,46 @@ http://links.puppetlabs.com/windows_support" />
             <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
               Name="installed" Value="1" Type="integer" KeyPath="yes" />
           </Component>
+          <Directory Id='PuppetShortcutDocumentationDir' Name="Documentation">
+            <Component Id="PuppetDocumentationFiles" Guid="69EFD772-D1AC-4375-A5A8-C69AB80EBF07">
+              <Shortcut Id="PuppetSupportShortcut"
+                Name="Get $(var.OurProductName) Support"
+                Description="Get Support for $(var.OurProductName) from $(var.OurCompanyName)"
+                Target="[INSTALLDIR]documentation\Get $(var.OurProductName) Support.url"
+                Icon="PuppetSupportShortcutIcon"
+                WorkingDirectory="documentation">
+                <Icon Id="PuppetSupportShortcutIcon" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>
+              </Shortcut>
+              <Shortcut Id="PuppetCommunityShortcut"
+                Name="Explore the Puppet Community"
+                Description="Explore the Puppet Community"
+                Target="[INSTALLDIR]documentation\Explore the Puppet Community.url"
+                Icon="PuppetCommunityShortcutIcon"
+                WorkingDirectory="documentation">
+                <Icon Id="PuppetCommunityShortcutIcon" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>
+              </Shortcut>
+              <Shortcut Id="PuppetNextStepShortcut"
+                Name="$(var.OurProductName) Getting Started"
+                Description="Manage your first resources on this node"
+                Target="[INSTALLDIR]documentation\$(var.OurProductName) First Steps.url"
+                Icon="PuppetNextStepShortcutIcon"
+                WorkingDirectory="documentation">
+                <Icon Id="PuppetNextStepShortcutIcon" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>
+              </Shortcut>
+              <Shortcut Id="PuppetManualShortcut"
+                Name="$(var.OurProductName) Manual"
+                Description="$(var.OurProductName) Online Manual"
+                Target="[INSTALLDIR]documentation\$(var.OurProductName) Manual.url"
+                Icon="PuppetManualShortcutIcon"
+                WorkingDirectory="documentation">
+                <Icon Id="PuppetManualShortcutIcon" SourceFile="conf\windows\stage\misc\puppetlabs.ico"/>
+              </Shortcut>
+              <RemoveFolder Id="ApplicationProgramsFolderDocumentation" On="uninstall"/>
+              <!-- This registry entry is required to be a keypath for this component -->
+              <RegistryValue Root="HKCU" Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)\Documentation"
+                Name="installed" Value="1" Type="integer" KeyPath="yes" />
+            </Component>
+          </Directory>
         </Directory>
       </Directory>
       <!-- The application itself -->
@@ -100,6 +134,31 @@ http://links.puppetlabs.com/windows_support" />
             <Directory Id='sys' Name='sys'>
             </Directory>
             <Directory Id='bin' Name='bin'>
+            </Directory>
+            <Directory Id='documentation' Name='documentation'>
+              <Component Id="PuppetDocumentationShortcuts" Guid="651178BC-76D8-4574-B97B-B132064EE2FB">
+                <CreateFolder />
+                  <IniFile Id="PuppetSupportURL" Name="Get $(var.OurProductName) Support.url"
+                    Action="addLine"
+                    Section="InternetShortcut"
+                    Key="URL" Value="$(var.HelpLink)"
+                    Directory="documentation" />
+                  <IniFile Id="PuppetCommunityURL" Name="Explore the Puppet Community.url"
+                    Action="addLine"
+                    Section="InternetShortcut"
+                    Key="URL" Value="$(var.CommunityLink)"
+                    Directory="documentation" />
+                  <IniFile Id="PuppetNextStepURL" Name="$(var.OurProductName) First Steps.url"
+                    Action="addLine"
+                    Section="InternetShortcut"
+                    Key="URL" Value="$(var.NextStepLink)"
+                    Directory="documentation" />
+                  <IniFile Id="PuppetManualURL" Name="$(var.OurProductName) Manual.url"
+                    Action="addLine"
+                    Section="InternetShortcut"
+                    Key="URL" Value="$(var.ManualLink)"
+                    Directory="documentation" />
+              </Component>
             </Directory>
           </Directory>
         </Directory>
@@ -286,8 +345,11 @@ http://links.puppetlabs.com/windows_support" />
       <ComponentRef Id="RegistryEntries" />
       <ComponentRef Id="PuppetVarDir" />
       <ComponentRef Id="PuppetShortcuts" />
+      <ComponentRef Id="PuppetDocumentationFiles" />
+      <ComponentRef Id="PuppetDocumentationShortcuts" />
       <?ifndef BUILD_UI_ONLY ?>
       <ComponentGroupRef Id="ruby" />
+      <ComponentGroupRef Id="tools" />
       <ComponentGroupRef Id="puppet" />
       <ComponentGroupRef Id="facter" />
       <?endif?>

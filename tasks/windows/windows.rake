@@ -88,7 +88,7 @@ def candle(wxs_file, flags=[])
   flags_string << " -dlicenseRtf=conf/windows/stage/misc/LICENSE.rtf"
   flags_string << " " << variable_define_flags
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
-    sh "candle -ext WixUIExtension -arch x86 #{flags_string} #{File.basename(wxs_file)}"
+    sh "candle -ext WiXUtilExtension -ext WixUIExtension -arch x86 #{flags_string} #{File.basename(wxs_file)}"
   end
 end
 
@@ -110,6 +110,22 @@ def unzip(zip_file, dir)
   Dir.chdir TOPDIR do
     Dir.chdir dir do
       sh "7za -y x #{File.join(TOPDIR, zip_file)}"
+    end
+  end
+end
+
+def upload(zip_file)
+  Dir.chdir TOPDIR do
+    Dir.chdir File.dirname(zip_file) do
+      sh "rsync -avxHP #{File.basename(zip_file)} downloads.puppetlabs.com:/opt/downloads/development/ftw/"
+    end
+  end
+end
+
+def rezip(zip_file, dir)
+  Dir.chdir TOPDIR do
+    Dir.chdir File.dirname(dir) do
+      sh "7za -y a #{File.join(TOPDIR, zip_file)} #{File.basename(dir)}"
     end
   end
 end
@@ -139,7 +155,7 @@ namespace :windows do
 
   # These translate to ZIP files we'll download
   # FEATURES = %w{ ruby git wix misc }
-  FEATURES = %w{ ruby }
+  FEATURES = %w{ ruby tools }
   # These are the applications we're packaging from VCS source
   APPS = %w{ facter puppet }
   # Thse are the pre-compiled things we need to stage and include in
@@ -188,7 +204,8 @@ namespace :windows do
   # WXS Fragments could have different types of sources and are generated
   # during the build process by heat.exe
   WXS_FRAGMENTS_HASH = {
-    'ruby' => { :src => 'stagedir/sys/ruby' },
+    'tools'  => { :src => 'stagedir/sys/tools' },
+    'ruby'   => { :src => 'stagedir/sys/ruby' },
     'puppet' => { :src => 'stagedir/puppet' },
     'facter' => { :src => 'stagedir/facter' },
   }
@@ -223,6 +240,30 @@ namespace :windows do
   WIXOBJS_MIN = (WXSFILES + WXS_FRAGMENTS.find_all { |f| f =~ /misc|bin/ }).ext 'wixobj'
   # These directories should be unpacked into stagedir/sys
   SYSTOOLS = FEATURES.collect { |fn| File.join("stagedir", "sys", fn) }
+
+  # Update the ruby archive.  Helpful after updating Gems
+  desc "Repack the zip archives"
+  task :repack => ["stagedir/sys", "downloads"] do |t|
+    Dir.chdir TOPDIR do
+      Dir.chdir "stagedir/sys" do
+        Dir['*'].each do |d|
+          rezip("downloads/#{d}.zip", "stagedir/sys/#{d}")
+        end
+      end
+    end
+  end
+
+  # Upload the repacked ruby zip file.  Helpful after updating Gems
+  desc "Upload the zip archives archive"
+  task :upload => ["downloads"] do |t|
+    Dir.chdir TOPDIR do
+      Dir.chdir "downloads" do
+        Dir['*.zip'].each do |zip|
+          upload "downloads/#{zip}"
+        end
+      end
+    end
+  end
 
   task :default => :build
   # High Level Tasks.  Other tasks will add themselves to these tasks
@@ -295,8 +336,8 @@ namespace :windows do
   task :checkout, [:puppet_ref, :facter_ref] => [:clone] do |t, args|
     # args.with_defaults(:puppet_ref => 'refs/remotes/origin/2.7.x',
     #                    :facter_ref => 'refs/remotes/origin/1.6.x')
-    args.with_defaults(:puppet_ref => 'refs/tags/2.7.9',
-                       :facter_ref => 'refs/tags/1.6.4')
+    args.with_defaults(:puppet_ref => 'origin/2.7.x',
+                       :facter_ref => 'origin/1.6.x')
     # This is an example of how to invoke other tasks that take parameters from
     # a task that takes parameters.
     Rake::Task["windows:checkout.facter"].invoke(args[:facter_ref])
@@ -366,22 +407,22 @@ namespace :windows do
   # REVISIT - DRY THIS SECTION UP, lots of copy paste code here...
   file 'pkg/puppet.msi' => WIXOBJS + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
-    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+    sh "light -ext WiXUtilExtension -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
   file 'pkg/puppetenterprise.msi' => WIXOBJS + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
-    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+    sh "light -ext WiXUtilExtension -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
   file 'pkg/puppet_ui_only.msi' => WIXOBJS_MIN + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
-    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+    sh "light -ext WiXUtilExtension -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
   file 'pkg/puppetenterprise_ui_only.msi' => WIXOBJS_MIN + WXS_UI_OBJS + LOCALIZED_STRINGS do |t|
     objects_to_link = t.prerequisites.reject { |f| f =~ /wxl$/ }.join(' ')
-    sh "light -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
+    sh "light -ext WiXUtilExtension -ext WixUIExtension -cultures:en-us -loc wix/localization/puppet_en-us.wxl -out #{t.name} #{objects_to_link}"
   end
 
   desc 'Install the MSI using msiexec'
