@@ -203,6 +203,36 @@
                   Key="certname" Value="[PUPPET_AGENT_CERTNAME]"
                   Directory="PuppetConfDir" />
               </Component>
+              <Directory Id="FactsDotD" Name="facts.d">
+                <Component Id="PuppetInstallerFacts" Permanent="yes" Guid="392775ED-DD4D-44E7-BAA7-C2CDFDA37C1D">
+                  <CreateFolder />
+                  <IniFile Id="PuppetInstallerFactStompPort" Name="puppet_installer.txt"
+                    Action="createLine"
+                    Section="facts"
+                    Key="fact_stomp_port" Value="61613"
+                    Directory="FactsDotD" />
+                  <IniFile Id="PuppetInstallerFactStompServer" Name="puppet_installer.txt"
+                    Action="createLine"
+                    Section="facts"
+                    Key="fact_stomp_server" Value="[PUPPET_MASTER_HOSTNAME]"
+                    Directory="FactsDotD" />
+                  <IniFile Id="PuppetInstallerFactIsPuppetMaster" Name="puppet_installer.txt"
+                    Action="createLine"
+                    Section="facts"
+                    Key="fact_is_puppetmaster" Value="false"
+                    Directory="FactsDotD" />
+                  <IniFile Id="PuppetInstallerFactIsPuppetAgent" Name="puppet_installer.txt"
+                    Action="createLine"
+                    Section="facts"
+                    Key="fact_is_puppetagent" Value="true"
+                    Directory="FactsDotD" />
+                  <IniFile Id="PuppetInstallerFactIsPuppetConsole" Name="puppet_installer.txt"
+                    Action="createLine"
+                    Section="facts"
+                    Key="fact_is_puppetconsole" Value="false"
+                    Directory="FactsDotD" />
+                </Component>
+              </Directory>
             </Directory>
             <!-- This PuppetVarDir directory is necessary to fix #12576 otherwise
                  puppet cannot create the directories it needs since the parent
@@ -370,6 +400,7 @@
       <!-- The PuppetConf components are conditional on PUPPET_AGENT_CERTNAME -->
       <ComponentRef Id="PuppetConfWithCertname" />
       <ComponentRef Id="PuppetConfUnconditionalSettings" />
+      <ComponentRef Id="PuppetInstallerFacts" />
     </Feature>
   </Product>
 </Wix>
