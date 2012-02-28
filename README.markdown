@@ -27,6 +27,16 @@ the process will automatically request Administrator rights using UAC:
 
 ![UAC Prompt](http://dl.dropbox.com/u/17169007/img/screenshot_1330369084_0_UAC.png)
 
+## Command Prompt ##
+
+A shortcut named "Start Command Prompt with Puppet" will be created in the
+Start Menu.  This shortcut automates the process of starting `cmd.exe` and
+manually setting the `PATH` and `RUBYLIB` environment variables.
+
+This command windows looks like this:
+
+![Start Command Prompt with Puppet](http://dl.dropbox.com/u/17169007/img/screenshot_1330411423_shell.png)
+
 # Overview #
 
 This is a separate repository because it is meant to build MSI packages for
