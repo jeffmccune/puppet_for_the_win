@@ -4,6 +4,9 @@ SET PL_BASEDIR=%~dp0..
 REM Avoid the nasty \..\ littering the paths.
 SET PL_BASEDIR=%PL_BASEDIR:\bin\..=%
 
+REM Set a fact so we can easily source the environment.bat file in the future.
+SET FACTER_env_windows_installdir=%PL_BASEDIR%
+
 REM Get the file name we were originally called as.  e.g. puppet.bat or puppet
 REM or facter.bat or facter.  ~n means: will return the file name only of
 SET SCRIPT_TEMP=%~n1
