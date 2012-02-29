@@ -8,7 +8,7 @@ MSI packages for Puppet on Windows systems.
 The following screen shots show the current state of the graphical installer.
 These screen shots are generated automatically.
 
-![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1330385269_0.png)
+![Screen 0](http://dl.dropbox.com/u/17169007/img/screenshot_1330473784_1.png)
 ![Screen 1](http://dl.dropbox.com/u/17169007/img/screenshot_1330385269_1.png)
 ![Screen 2](http://dl.dropbox.com/u/17169007/img/screenshot_1330385269_2.png)
 ![Screen 3](http://dl.dropbox.com/u/17169007/img/screenshot_1330385269_3.png)
@@ -149,6 +149,31 @@ Microsoft Windows.  The following screen shots show the current look:
 ![Add Remove Programs 1](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_5.png)
 ![Add Remove Programs 2](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_6.png)
 ![Add Remove Programs 3](http://dl.dropbox.com/u/17169007/img/screenshot_1329854437_7.png)
+
+# Puppet Enterprise Facts #
+
+Facts required to connect a Windows Puppet agent to a Puppet Enterprise master
+are automatically written to Puppet's confdir.  The facts will be stored in
+`$confdir/facts.d/puppet_installer.txt`
+
+These facts are written for both the Puppet FOSS and Puppet Enterprise branded
+installation package.  The following entries are written by default by the
+installer and may be changed after the package has been installed.
+
+    fact_stomp_port=61613
+    fact_is_puppetagent=true
+    fact_is_puppetmaster=false
+    fact_is_puppetconsole=false
+
+The stomp server fact defaults to the puppet master hostname specified in the
+graphical installer, or using the `PUPPET_MASTER_HOSTNAME` property in the
+command line installer.
+
+    fact_stomp_server=puppet
+
+The stomp server and stomp port facts are put in place for future support of
+MCollective on Windows.  These facts will not be used until MCollective support
+has been added to the Windows packages.
 
 # Troubleshooting #
 
