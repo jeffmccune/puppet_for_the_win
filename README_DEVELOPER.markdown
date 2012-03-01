@@ -148,19 +148,24 @@ updating the README file with current images.
 # Modifying the included Ruby #
 
 The copy of Ruby is created by simply zipping up the `stagedir/sys/ruby`
-directory into `ruby.zip`  I recently removed some gems following this process:
+directory into `ruby.zip`  I recently updated some gems following this process:
 
-    C:\>SET PATH=Z:\vagrant\win\puppetwinbuilder\src\puppet_for_the_win\stagedir\sys\ruby\bin;%PATH%
-    gem uninstall rspec
-    gem uninstall rspec-core
-    gem uninstall mocha
-    ...
-
-Then back on my Mac:
-
-    % cd /vagrant/src/puppet_for_the_win/stagedir/sys
-    % zip -r ruby.zip ruby
-    % scp ruby.zip downloads.puppetlabs.com:/opt/downloads/development/ftw/
+1. `rake clean` (In a puppetwinbuilder shell, or on your workstation)
+2. `rake windows:stage` (Unpacks the current ruby.zip)
+3. Clear your environment to windows default.  (Start a fresh cmd.exe to make
+   sure Ruby isn't already in your PATH)
+4. `cd \path\to\puppet_for_the_win`
+5. `cd stagedir\bin`
+6. `environment.bat` (This configures the environment to use the currently
+   staged Ruby runtime)
+7. `ruby -e 'puts $LOAD_PATH'` (Prove to yourself you have the correct runtime
+   in your staging directory)
+8. `gem uninstall win32-taskscheduler`
+9. `gem install win32-taskscheduler` (Make any changes you want)
+10. Switch back to your `puppetwinbuilder` shell.
+11. `rake windows:repack`
+12. `rake windows:upload` (You need to have your public key and write access to
+    downloads.puppetlabs.com)
 
 This produces a new archive and uploads it to the webserver the rake tasks will
 download from if the file doesn't exist locally.  To use the new zip file
