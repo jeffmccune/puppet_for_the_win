@@ -153,6 +153,11 @@
                   Section="main"
                   Key="pluginsync" Value="true"
                   Directory="PuppetConfDir" />
+                <IniFile Id="PuppetConfAutoflush" Name="puppet.conf"
+                  Action="createLine"
+                  Section="main"
+                  Key="autoflush" Value="true"
+                  Directory="PuppetConfDir" />
               </Component>
               <Component Id="PuppetConfWithCertname" Permanent="yes" Guid="5D1813E1-0AEB-4965-B504-354D7F10DCEA">
                 <Condition>PUPPET_AGENT_CERTNAME</Condition>
