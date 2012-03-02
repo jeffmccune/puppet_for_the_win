@@ -57,7 +57,7 @@
       TARGETDIR is Usually C:/  This will also be the location the install package will be copied to
       For more information: http://msdn.microsoft.com/en-us/library/aa372064.aspx
 
-      INSTALLDIR is the root of our application, which is C:/puppetlabs for us.
+      INSTALLDIR is the root of our application, which is C:/Program Files/Puppet Labs for us.
     -->
     <Directory Id='TARGETDIR' Name='SourceDir'>
       <!-- The start menu shortcuts -->
@@ -132,6 +132,24 @@
             </Directory>
             <Directory Id='bin' Name='bin'>
             </Directory>
+	    <Directory Id='service' Name='service'>
+	      <Component Id='PuppetService' Guid="639ECD7F-6186-43D5-9E1A-FC0278DBEE15">
+		<File Id="PuppetDaemonBat" KeyPath="yes" Source="conf\windows\service\daemon.bat" />
+		<File Id="PuppetDaemon" KeyPath="no" Source="conf\windows\service\daemon.rb" />
+		<ServiceInstall Id="ServiceInstaller"
+				Account="LocalSystem"
+				Description="The agent for the Puppet server automation framework"
+				DisplayName="Puppet Agent"
+				Interactive="no"
+				Name="puppet"
+				Start="auto"
+				Type="ownProcess"
+				ErrorControl="normal"
+				Vital="yes"
+				/>
+		<ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="puppet" Wait="yes" />
+	      </Component>
+	    </Directory>
           </Directory>
         </Directory>
       </Directory>
@@ -363,6 +381,7 @@
       <ComponentRef Id="PuppetConfWithCertname" />
       <ComponentRef Id="PuppetConfUnconditionalSettings" />
       <ComponentRef Id="PuppetInstallerFacts" />
+      <ComponentRef Id="PuppetService" />
     </Feature>
   </Product>
 </Wix>
