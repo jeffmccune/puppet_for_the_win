@@ -166,6 +166,17 @@
                   Key="certname" Value="[PUPPET_AGENT_CERTNAME]"
                   Directory="PuppetConfDir" />
               </Component>
+              <Component Id="PuppetConfWithCaServer" Permanent="yes" Guid="CE676CF1-2E12-4CDC-B87F-D4BC4E71FF85">
+                <Condition>PUPPET_CA_SERVER</Condition>
+                <CreateFolder />
+                <!-- The certname setting will only be managed if the
+                     PUPPET_CA_SERVER is not an empty string -->
+                <IniFile Id="PuppetConfCaServer" Name="puppet.conf"
+                  Action="createLine"
+                  Section="main"
+                  Key="ca_server" Value="[PUPPET_CA_SERVER]"
+                  Directory="PuppetConfDir" />
+	      </Component>
               <Directory Id="FactsDotD" Name="facts.d">
                 <Component Id="PuppetInstallerFacts" Permanent="yes" Guid="392775ED-DD4D-44E7-BAA7-C2CDFDA37C1D">
                   <CreateFolder />
@@ -270,6 +281,8 @@
         Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
         Name="RememberedPuppetAgentCertname" Type="raw" />
     </Property>
+    <Property Id="PUPPET_CA_SERVER">
+    </Property>
 
     <!-- Custom Actions to handle command line property values that override
          remembered property values -->
@@ -300,6 +313,15 @@
       Property="PUPPET_AGENT_CERTNAME"
       Value="[CMDLINE_PUPPET_AGENT_CERTNAME]"
       Execute="firstSequence" />
+    <!-- PUPPET_CA_SERVER -->
+    <CustomAction Id="SaveCmdLinePuppetCaServer"
+      Property="[CMDLINE_PUPPET_CA_SERVER]"
+      Value="[PUPPET_CA_SERVER]"
+      Execute="firstSequence" />
+    <CustomAction Id="SetFromCmdLinePuppetCaServer"
+      Property="PUPPET_CA_SERVER"
+      Value="[CMDLINE_PUPPET_CA_SERVER]"
+      Execute="firstSequence" />
 
     <!-- First, save off properties specified on the command line Second,
          restore the properties set by the command line overriding the recalled
@@ -320,6 +342,12 @@
       <Custom Action='SetFromCmdLinePuppetAgentCertname' After='AppSearch'>
         CMDLINE_PUPPET_AGENT_CERTNAME
       </Custom>
+      <!-- PUPPET_CA_SERVER -->
+      <Custom Action='SaveCmdLinePuppetCaServer' Before='AppSearch' />
+      <Custom Action='SetFromCmdLinePuppetCaServer' After='AppSearch'>
+        CMDLINE_PUPPET_CA_SERVER
+      </Custom>
+
     </InstallUISequence>
     <InstallExecuteSequence>
       <!-- INSTALLDIR -->
@@ -336,6 +364,11 @@
       <Custom Action='SaveCmdLinePuppetAgentCertname' Before='AppSearch' />
       <Custom Action='SetFromCmdLinePuppetAgentCertname' After='AppSearch'>
         CMDLINE_PUPPET_AGENT_CERTNAME
+      </Custom>
+      <!-- PUPPET_CA_SERVER -->
+      <Custom Action='SaveCmdLinePuppetCaServer' Before='AppSearch' />
+      <Custom Action='SetFromCmdLinePuppetCaServer' After='AppSearch'>
+        CMDLINE_PUPPET_CA_SERVER
       </Custom>
     </InstallExecuteSequence>
 
@@ -361,6 +394,7 @@
       -->
       <!-- The PuppetConf components are conditional on PUPPET_AGENT_CERTNAME -->
       <ComponentRef Id="PuppetConfWithCertname" />
+      <ComponentRef Id="PuppetConfWithCaServer" />
       <ComponentRef Id="PuppetConfUnconditionalSettings" />
       <ComponentRef Id="PuppetInstallerFacts" />
     </Feature>
