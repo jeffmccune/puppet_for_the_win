@@ -121,7 +121,7 @@ The installation directory may be specified on the command line by passing the
 property.  This example logs verbosely to the `install.txt` file and performs a
 silent installation to `C:\test\puppet` which is not the default.
 
-    msiexec /qn /l*v install.txt /i puppet.msi INSTALLDIR="C:\puppet" PUPPET_MASTER_HOSTNAME="puppetmaster.lan"
+    msiexec /qn /l*v install.txt /i puppet.msi INSTALLDIR="C:\puppet" PUPPET_MASTER_SERVER="puppetmaster.lan"
 
 # Public Properties #
 
@@ -129,7 +129,9 @@ All of these are optional and their default values are in parentheses.
 
  * `INSTALLDIR` (`"%PROGRAMFILES%\Puppet Labs\Puppet"`)
  * `PUPPET_AGENT_CERTNAME` (Unset, Puppet will default to using `facter fqdn`)
- * `PUPPET_MASTER_HOSTNAME` ("puppet")
+ * `PUPPET_MASTER_SERVER` ("puppet")
+ * `PUPPET_CA_SERVER` (Unset, Puppet will default to using
+   `PUPPET_MASTER_SERVER`)
 
 If the `PUPPET_AGENT_CERTNAME` property is not set on the command line when
 installing the package, then no `certname` setting will be written to
@@ -166,7 +168,7 @@ installer and may be changed after the package has been installed.
     fact_is_puppetconsole=false
 
 The stomp server fact defaults to the puppet master hostname specified in the
-graphical installer, or using the `PUPPET_MASTER_HOSTNAME` property in the
+graphical installer, or using the `PUPPET_MASTER_SERVER` property in the
 command line installer.
 
     fact_stomp_server=puppet

@@ -29,11 +29,11 @@
                 <Control Id="Folder" Type="PathEdit" X="20" Y="80" Width="320" Height="18" Property="WIXUI_INSTALLDIR" Indirect="yes" />
                 <Control Id="ChangeFolder" Type="PushButton" X="20" Y="100" Width="56" Height="17" Text="!(loc.InstallDirDlgChange)" />
 
-                <Control Id="PuppetMasterHostnameText" Type="Text" X="20" Y="135" Width="290" Height="13" NoPrefix="yes"
+                <Control Id="PuppetMasterServerText" Type="Text" X="20" Y="135" Width="290" Height="13" NoPrefix="yes"
                   Text="Hostname of the Puppet master:" />
-                <Control Id="PuppetMasterHostnameEdit" Type="Edit" X="20" Y="150" Width="320" Height="18"
-                  Text="[PUPPET_MASTER_HOSTNAME]"
-                  Property="PUPPET_MASTER_HOSTNAME" />
+                <Control Id="PuppetMasterServerEdit" Type="Edit" X="20" Y="150" Width="320" Height="18"
+                  Text="[PUPPET_MASTER_SERVER]"
+                  Property="PUPPET_MASTER_SERVER" />
 
                 <!-- Disabled in the GUI as per #12640
                 <Control Id="PuppetAgentCertNameText" Type="Text" X="20" Y="185" Width="290" Height="13" NoPrefix="yes"

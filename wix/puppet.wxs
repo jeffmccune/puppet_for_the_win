@@ -146,7 +146,7 @@
                 <IniFile Id="PuppetConfServer" Name="puppet.conf"
                   Action="createLine"
                   Section="main"
-                  Key="server" Value="[PUPPET_MASTER_HOSTNAME]"
+                  Key="server" Value="[PUPPET_MASTER_SERVER]"
                   Directory="PuppetConfDir" />
                 <IniFile Id="PuppetConfPluginSync" Name="puppet.conf"
                   Action="createLine"
@@ -188,7 +188,7 @@
                   <IniFile Id="PuppetInstallerFactStompServer" Name="puppet_installer.txt"
                     Action="createLine"
                     Section="facts"
-                    Key="fact_stomp_server" Value="[PUPPET_MASTER_HOSTNAME]"
+                    Key="fact_stomp_server" Value="[PUPPET_MASTER_SERVER]"
                     Directory="FactsDotD" />
                   <IniFile Id="PuppetInstallerFactIsPuppetMaster" Name="puppet_installer.txt"
                     Action="createLine"
@@ -231,7 +231,7 @@
           <RegistryValue Name="InstalledFlag" Value="1" Type="integer" KeyPath="yes"/>
           <!-- Store properties for later recall during uninstall, upgrade, repair -->
           <RegistryValue Name="RememberedInstallDir" Type="string" Value="[INSTALLDIR]" />
-          <RegistryValue Name="RememberedPuppetMasterHostname" Type="string" Value="[PUPPET_MASTER_HOSTNAME]" />
+          <RegistryValue Name="RememberedPuppetMasterServer" Type="string" Value="[PUPPET_MASTER_SERVER]" />
           <RegistryValue Name="RememberedPuppetAgentCertname" Type="string" Value="[PUPPET_AGENT_CERTNAME]" />
         </RegistryKey>
       </Component>
@@ -269,11 +269,11 @@
     </Property>
     <!-- Note the static default value of "puppet".  This will be overriden by
          the command line. -->
-    <Property Id="PUPPET_MASTER_HOSTNAME" Value="puppet">
+    <Property Id="PUPPET_MASTER_SERVER" Value="puppet">
       <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
-      <RegistrySearch Id="RecallPuppetMasterHostname" Root="HKLM"
+      <RegistrySearch Id="RecallPuppetMasterServer" Root="HKLM"
         Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
-        Name="RememberedPuppetMasterHostname" Type="raw" />
+        Name="RememberedPuppetMasterServer" Type="raw" />
     </Property>
     <Property Id="PUPPET_AGENT_CERTNAME">
       <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
@@ -295,14 +295,14 @@
       Property="INSTALLDIR"
       Value="[CMDLINE_INSTALLDIR]"
       Execute="firstSequence" />
-    <!-- PUPPET_MASTER_HOSTNAME -->
-    <CustomAction Id="SaveCmdLinePuppetMasterHostname"
-      Property="[CMDLINE_PUPPET_MASTER_HOSTNAME]"
-      Value="[PUPPET_MASTER_HOSTNAME]"
+    <!-- PUPPET_MASTER_SERVER -->
+    <CustomAction Id="SaveCmdLinePuppetMasterServer"
+      Property="[CMDLINE_PUPPET_MASTER_SERVER]"
+      Value="[PUPPET_MASTER_SERVER]"
       Execute="firstSequence" />
-    <CustomAction Id="SetFromCmdLinePuppetMasterHostname"
-      Property="PUPPET_MASTER_HOSTNAME"
-      Value="[CMDLINE_PUPPET_MASTER_HOSTNAME]"
+    <CustomAction Id="SetFromCmdLinePuppetMasterServer"
+      Property="PUPPET_MASTER_SERVER"
+      Value="[CMDLINE_PUPPET_MASTER_SERVER]"
       Execute="firstSequence" />
     <!-- PUPPET_AGENT_CERTNAME -->
     <CustomAction Id="SaveCmdLinePuppetAgentCertname"
@@ -332,10 +332,10 @@
       <Custom Action='SetFromCmdLineInstallDir' After='AppSearch'>
         CMDLINE_INSTALLDIR
       </Custom>
-      <!-- PUPPET_MASTER_HOSTNAME -->
-      <Custom Action='SaveCmdLinePuppetMasterHostname' Before='AppSearch' />
-      <Custom Action='SetFromCmdLinePuppetMasterHostname' After='AppSearch'>
-        CMDLINE_PUPPET_MASTER_HOSTNAME
+      <!-- PUPPET_MASTER_SERVER -->
+      <Custom Action='SaveCmdLinePuppetMasterServer' Before='AppSearch' />
+      <Custom Action='SetFromCmdLinePuppetMasterServer' After='AppSearch'>
+        CMDLINE_PUPPET_MASTER_SERVER
       </Custom>
       <!-- PUPPET_AGENT_CERTNAME -->
       <Custom Action='SaveCmdLinePuppetAgentCertname' Before='AppSearch' />
@@ -355,10 +355,10 @@
       <Custom Action='SetFromCmdLineInstallDir' After='AppSearch'>
         CMDLINE_INSTALLDIR
       </Custom>
-      <!-- PUPPET_MASTER_HOSTNAME -->
-      <Custom Action='SaveCmdLinePuppetMasterHostname' Before='AppSearch' />
-      <Custom Action='SetFromCmdLinePuppetMasterHostname' After='AppSearch'>
-        CMDLINE_PUPPET_MASTER_HOSTNAME
+      <!-- PUPPET_MASTER_SERVER -->
+      <Custom Action='SaveCmdLinePuppetMasterServer' Before='AppSearch' />
+      <Custom Action='SetFromCmdLinePuppetMasterServer' After='AppSearch'>
+        CMDLINE_PUPPET_MASTER_SERVER
       </Custom>
       <!-- PUPPET_AGENT_CERTNAME -->
       <Custom Action='SaveCmdLinePuppetAgentCertname' Before='AppSearch' />
