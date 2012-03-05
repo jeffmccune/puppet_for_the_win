@@ -232,6 +232,7 @@
           <!-- Store properties for later recall during uninstall, upgrade, repair -->
           <RegistryValue Name="RememberedInstallDir" Type="string" Value="[INSTALLDIR]" />
           <RegistryValue Name="RememberedPuppetMasterServer" Type="string" Value="[PUPPET_MASTER_SERVER]" />
+          <RegistryValue Name="RememberedPuppetCaServer" Type="string" Value="[PUPPET_CA_SERVER]" />
           <RegistryValue Name="RememberedPuppetAgentCertname" Type="string" Value="[PUPPET_AGENT_CERTNAME]" />
         </RegistryKey>
       </Component>
@@ -282,6 +283,9 @@
         Name="RememberedPuppetAgentCertname" Type="raw" />
     </Property>
     <Property Id="PUPPET_CA_SERVER">
+      <RegistrySearch Id="RecallPuppetCAServer" Root="HKLM"
+        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+        Name="RememberedPuppetCaServer" Type="raw" />
     </Property>
 
     <!-- Custom Actions to handle command line property values that override
