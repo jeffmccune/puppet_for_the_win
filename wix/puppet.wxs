@@ -243,10 +243,14 @@
         </Directory>
       </Directory>
       <!-- This section inspired by: http://wix.sourceforge.net/manual-wix3/write_a_registry_entry.htm -->
+      <!-- We write to $(var.OurCompanyName)\$(var.OurCommonProductNameWord)
+           (Puppet Labs\CommonProduct)
+           in order to restore the PUPPET_MASTER_SERVER property when replacing
+           Puppet FOSS with Puppet Enterprise. -->
       <Component Id="RegistryEntries" Guid="5609A85E-BEAB-4807-B930-B7ED5D8E8F03">
         <RegistryKey
           Root="HKLM"
-          Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+          Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurCommonProductNameWord)"
           Action="create" >
           <!-- This is the default (aka 'unnamed') key value of this path -->
           <RegistryValue Type="integer" Value="0"/>
@@ -288,7 +292,7 @@
     <Property Id="INSTALLDIR">
       <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
       <RegistrySearch Id="RecallInstallDir" Root="HKLM"
-        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurCommonProductNameWord)"
         Name="RememberedInstallDir" Type="raw" />
     </Property>
     <!-- Note the static default value of "puppet".  This will be overriden by
@@ -296,18 +300,18 @@
     <Property Id="PUPPET_MASTER_SERVER" Value="puppet">
       <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
       <RegistrySearch Id="RecallPuppetMasterServer" Root="HKLM"
-        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurCommonProductNameWord)"
         Name="RememberedPuppetMasterServer" Type="raw" />
     </Property>
     <Property Id="PUPPET_AGENT_CERTNAME">
       <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
       <RegistrySearch Id="RecallPuppetAgentCertname" Root="HKLM"
-        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurCommonProductNameWord)"
         Name="RememberedPuppetAgentCertname" Type="raw" />
     </Property>
     <Property Id="PUPPET_CA_SERVER">
       <RegistrySearch Id="RecallPuppetCAServer" Root="HKLM"
-        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductName)"
+        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurCommonProductNameWord)"
         Name="RememberedPuppetCaServer" Type="raw" />
     </Property>
 

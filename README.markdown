@@ -177,6 +177,23 @@ The stomp server and stomp port facts are put in place for future support of
 MCollective on Windows.  These facts will not be used until MCollective support
 has been added to the Windows packages.
 
+# Remembered Properties #
+
+The Puppet and Puppet Enterprise installers will write the values of user
+specified public properties into the following registry paths:
+
+    HKLM\Software\Puppet Labs\PuppetInstaller
+      RememberedInstallDir          = INSTALLDIR
+      RememberedPuppetMasterServer  = PUPPET_MASTER_SERVER
+      RememberedPuppetAgentCertname = PUPPET_AGENT_CERTNAME
+      RememberedPuppetCaServer      = PUPPET_CA_SERVER
+
+When the Puppet Enterprise MSI is in an upgrade scenario and is replacing
+Puppet FOSS these properties will be "recalled" and filled in as the default
+settings in the GUI.  If you are running `puppetenterprise.msi` and you notice
+it's automatically filled in the value you previously used for Puppet, this is
+how it's getting that information.
+
 # Troubleshooting #
 
 ## Missing .NET Framework ##

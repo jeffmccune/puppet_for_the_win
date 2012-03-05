@@ -2,6 +2,7 @@
 <Include>
   <?define OurCompanyName="Puppet Labs"?>
   <?define OurCompanyNameWord="PuppetLabs"?>
+  <?define OurCommonProductNameWord="PuppetInstaller"?>
 
   <!-- Component Versions.  We expect the build system to define these values
        on the command line using `git describe` -->
