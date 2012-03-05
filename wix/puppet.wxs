@@ -132,24 +132,24 @@
             </Directory>
             <Directory Id='bin' Name='bin'>
             </Directory>
-	    <Directory Id='service' Name='service'>
-	      <Component Id='PuppetService' Guid="639ECD7F-6186-43D5-9E1A-FC0278DBEE15">
-		<File Id="PuppetDaemonBat" KeyPath="yes" Source="conf\windows\service\daemon.bat" />
-		<File Id="PuppetDaemon" KeyPath="no" Source="conf\windows\service\daemon.rb" />
-		<ServiceInstall Id="ServiceInstaller"
-				Account="LocalSystem"
-				Description="The agent for the Puppet server automation framework"
-				DisplayName="Puppet Agent"
-				Interactive="no"
-				Name="puppet"
-				Start="auto"
-				Type="ownProcess"
-				ErrorControl="normal"
-				Vital="yes"
-				/>
-		<ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="puppet" Wait="yes" />
-	      </Component>
-	    </Directory>
+            <Directory Id='service' Name='service'>
+              <Component Id='PuppetService' Guid="639ECD7F-6186-43D5-9E1A-FC0278DBEE15">
+                <File Id="PuppetDaemonBat" KeyPath="yes" Source="conf\windows\service\daemon.bat" />
+                <File Id="PuppetDaemon" KeyPath="no" Source="conf\windows\service\daemon.rb" />
+                <ServiceInstall Id="ServiceInstaller"
+                  Account="LocalSystem"
+                  Description="The agent for the Puppet server automation framework"
+                  DisplayName="Puppet Agent"
+                  Interactive="no"
+                  Name="puppet"
+                  Start="auto"
+                  Type="ownProcess"
+                  ErrorControl="normal"
+                  Vital="yes"
+                  />
+                <ServiceControl Id="StartService" Start="install" Stop="both" Remove="uninstall" Name="puppet" Wait="yes" />
+              </Component>
+            </Directory>
           </Directory>
         </Directory>
       </Directory>
@@ -182,6 +182,17 @@
                   Action="createLine"
                   Section="main"
                   Key="certname" Value="[PUPPET_AGENT_CERTNAME]"
+                  Directory="PuppetConfDir" />
+              </Component>
+              <Component Id="PuppetConfWithCaServer" Permanent="yes" Guid="CE676CF1-2E12-4CDC-B87F-D4BC4E71FF85">
+                <Condition>PUPPET_CA_SERVER</Condition>
+                <CreateFolder />
+                <!-- The certname setting will only be managed if the
+                     PUPPET_CA_SERVER is not an empty string -->
+                <IniFile Id="PuppetConfCaServer" Name="puppet.conf"
+                  Action="createLine"
+                  Section="main"
+                  Key="ca_server" Value="[PUPPET_CA_SERVER]"
                   Directory="PuppetConfDir" />
               </Component>
               <Directory Id="FactsDotD" Name="facts.d">
