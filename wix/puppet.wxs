@@ -257,10 +257,21 @@
           <!-- This is the specified value of a key at this path -->
           <RegistryValue Name="InstalledFlag" Value="1" Type="integer" KeyPath="yes"/>
           <!-- Store properties for later recall during uninstall, upgrade, repair -->
-          <RegistryValue Name="RememberedInstallDir" Type="string" Value="[INSTALLDIR]" />
           <RegistryValue Name="RememberedPuppetMasterServer" Type="string" Value="[PUPPET_MASTER_SERVER]" />
           <RegistryValue Name="RememberedPuppetCaServer" Type="string" Value="[PUPPET_CA_SERVER]" />
           <RegistryValue Name="RememberedPuppetAgentCertname" Type="string" Value="[PUPPET_AGENT_CERTNAME]" />
+        </RegistryKey>
+        <!-- Product Specific Properties.  We keep INSTALLDIR here so as not to
+             accidentally install Puppet Enterprise into Puppet's default
+             install directory and vice-versa. -->
+        <RegistryKey
+          Root="HKLM"
+          Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductNameWord)"
+          Action="create" >
+          <!-- This is the default (aka 'unnamed') key value of this path -->
+          <RegistryValue Type="integer" Value="0"/>
+          <!-- RememberedInstallDir -->
+          <RegistryValue Name="RememberedInstallDir" Type="string" Value="[INSTALLDIR]" />
         </RegistryKey>
       </Component>
     </Directory>
@@ -292,7 +303,7 @@
     <Property Id="INSTALLDIR">
       <!-- Recall the property in repair, upgrade, and uninstall scenarios -->
       <RegistrySearch Id="RecallInstallDir" Root="HKLM"
-        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurCommonProductNameWord)"
+        Key="SOFTWARE\$(var.OurCompanyName)\$(var.OurProductNameWord)"
         Name="RememberedInstallDir" Type="raw" />
     </Property>
     <!-- Note the static default value of "puppet".  This will be overriden by
