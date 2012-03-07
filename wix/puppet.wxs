@@ -156,6 +156,38 @@
       <!-- The CommonAppDataFolder is automatically filled in for us. -->
       <Directory Id="CommonAppDataFolder" Name="CommonAppData">
         <Directory Id="PuppetLabsAppData" Name="PuppetLabs">
+          <Directory Id="FacterAppData" Name="facter">
+            <Directory Id="FactsDotD" Name="facts.d">
+              <Component Id="PuppetInstallerFacts" Permanent="yes" Guid="4E7C234B-2837-4459-A20E-9503A922FCB9">
+                <CreateFolder />
+                <IniFile Id="PuppetInstallerFactStompPort" Name="puppet_installer.txt"
+                  Action="createLine"
+                  Section="facts"
+                  Key="fact_stomp_port" Value="61613"
+                  Directory="FactsDotD" />
+                <IniFile Id="PuppetInstallerFactStompServer" Name="puppet_installer.txt"
+                  Action="createLine"
+                  Section="facts"
+                  Key="fact_stomp_server" Value="[PUPPET_MASTER_SERVER]"
+                  Directory="FactsDotD" />
+                <IniFile Id="PuppetInstallerFactIsPuppetMaster" Name="puppet_installer.txt"
+                  Action="createLine"
+                  Section="facts"
+                  Key="fact_is_puppetmaster" Value="false"
+                  Directory="FactsDotD" />
+                <IniFile Id="PuppetInstallerFactIsPuppetAgent" Name="puppet_installer.txt"
+                  Action="createLine"
+                  Section="facts"
+                  Key="fact_is_puppetagent" Value="true"
+                  Directory="FactsDotD" />
+                <IniFile Id="PuppetInstallerFactIsPuppetConsole" Name="puppet_installer.txt"
+                  Action="createLine"
+                  Section="facts"
+                  Key="fact_is_puppetconsole" Value="false"
+                  Directory="FactsDotD" />
+              </Component>
+            </Directory>
+          </Directory>
           <Directory Id="PuppetAppData" Name="puppet">
             <Directory Id="PuppetConfDir" Name="etc">
               <!-- This is a permanent directory, do not remove on uninstall -->
@@ -200,36 +232,6 @@
                   Key="ca_server" Value="[PUPPET_CA_SERVER]"
                   Directory="PuppetConfDir" />
               </Component>
-              <Directory Id="FactsDotD" Name="facts.d">
-                <Component Id="PuppetInstallerFacts" Permanent="yes" Guid="392775ED-DD4D-44E7-BAA7-C2CDFDA37C1D">
-                  <CreateFolder />
-                  <IniFile Id="PuppetInstallerFactStompPort" Name="puppet_installer.txt"
-                    Action="createLine"
-                    Section="facts"
-                    Key="fact_stomp_port" Value="61613"
-                    Directory="FactsDotD" />
-                  <IniFile Id="PuppetInstallerFactStompServer" Name="puppet_installer.txt"
-                    Action="createLine"
-                    Section="facts"
-                    Key="fact_stomp_server" Value="[PUPPET_MASTER_SERVER]"
-                    Directory="FactsDotD" />
-                  <IniFile Id="PuppetInstallerFactIsPuppetMaster" Name="puppet_installer.txt"
-                    Action="createLine"
-                    Section="facts"
-                    Key="fact_is_puppetmaster" Value="false"
-                    Directory="FactsDotD" />
-                  <IniFile Id="PuppetInstallerFactIsPuppetAgent" Name="puppet_installer.txt"
-                    Action="createLine"
-                    Section="facts"
-                    Key="fact_is_puppetagent" Value="true"
-                    Directory="FactsDotD" />
-                  <IniFile Id="PuppetInstallerFactIsPuppetConsole" Name="puppet_installer.txt"
-                    Action="createLine"
-                    Section="facts"
-                    Key="fact_is_puppetconsole" Value="false"
-                    Directory="FactsDotD" />
-                </Component>
-              </Directory>
             </Directory>
             <!-- This PuppetVarDir directory is necessary to fix #12576 otherwise
                  puppet cannot create the directories it needs since the parent
