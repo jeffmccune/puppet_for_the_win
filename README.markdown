@@ -156,7 +156,7 @@ Microsoft Windows.  The following screen shots show the current look:
 
 Facts required to connect a Windows Puppet agent to a Puppet Enterprise master
 are automatically written to Puppet's confdir.  The facts will be stored in
-`$confdir/facts.d/puppet_installer.txt`
+`%COMMON_APPDATA%/PuppetLabs/facter/facts.d/puppet_installer.txt`
 
 These facts are written for both the Puppet FOSS and Puppet Enterprise branded
 installation package.  The following entries are written by default by the
