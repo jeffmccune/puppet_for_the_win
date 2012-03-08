@@ -33,6 +33,7 @@
   <?define UpgradeCode="2AD3D11C-61B3-4710-B106-B4FDEC5FA358" ?>
 
   <?define CommunityLink="http://links.puppetlabs.com/windows-installer-starting-out" ?>
+  <?define ForgeLink="http://links.puppetlabs.com/forge-windows" ?>
 
   <!-- Branding (foss|enterprise) -->
   <?if $(var.PackageBrand) = enterprise ?>
