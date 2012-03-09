@@ -138,7 +138,7 @@
                 <File Id="PuppetDaemon" KeyPath="no" Source="conf\windows\service\daemon.rb" />
                 <ServiceInstall Id="ServiceInstaller"
                   Account="LocalSystem"
-                  Description="The agent for the Puppet server automation framework"
+                  Description="Periodically fetches and applies configurations from a Puppet master server."
                   DisplayName="Puppet Agent"
                   Interactive="no"
                   Name="puppet"
