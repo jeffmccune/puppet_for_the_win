@@ -18,7 +18,7 @@ These screen shots are generated automatically.
 
 The current icon being used looks like this:
 
-![Icons](http://dl.dropbox.com/u/17169007/img/screenshot_1330369100_0_documentation.png)
+![Icons](http://dl.dropbox.com/u/17169007/img/screenshoot_1331337674_0_icons.png)
 
 ## UAC Integration ##
 
