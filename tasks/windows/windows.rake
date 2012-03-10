@@ -297,10 +297,14 @@ namespace :windows do
   task :buildenterprise do |t|
     ENV['BRANDING'] ||= "enterprise"
     if not ENV['PE_VERSION_STRING']
-      puts "Warning: PE_VERSION_STRING is not set in the environment.  Defaulting to 2.5.0-0-0"
-      ENV['PE_VERSION_STRING'] = '2.5.0-0-0'
+      puts "Warning: PE_VERSION_STRING is not set in the environment.  Defaulting to 2.5.0"
+      ENV['PE_VERSION_STRING'] = '2.5.0'
     end
     Rake::Task["windows:cleanobjects"].execute
+
+    # The puppet.wixobj task requires the puppet version patch
+    task "wix/fragments/puppet.wxs" => [ "stagedir/puppet/lib/puppet.rb.bak" ]
+
     Rake::Task["pkg/puppetenterprise.msi"].invoke
   end
 
@@ -310,7 +314,7 @@ namespace :windows do
     ENV['BUILD_UI_ONLY'] ||= 'true'
     if not ENV['PE_VERSION_STRING']
       puts "Warning: PE_VERSION_STRING is not set in the environment.  Defaulting to 2.5.0-0-0"
-      ENV['PE_VERSION_STRING'] = '2.5.0-0-0'
+      ENV['PE_VERSION_STRING'] = '2.5.0'
     end
     Rake::Task["windows:cleanobjects"].execute
     Rake::Task["pkg/puppetenterprise_ui_only.msi"].invoke
@@ -402,6 +406,37 @@ namespace :windows do
     end
     # The stage task needs these directories to be in place.
     task :stage => ["stagedir/#{app}"]
+  end
+
+  # Patch the Puppet Version string.  The intent is that this task will only be
+  # invoked by the windows:puppetenterprise task.  If both Puppet and Puppet
+  # Enterprise are being built then the order should be:
+  # 1: rake clean (Clean up any patched puppetversion)
+  # 2: rake windows:build (puppetversion will not be patched)
+  # 3: rake windows:buildenterprise (puppetversion will be patched)
+  file 'stagedir/puppet/lib/puppet.rb.bak' => [ "stagedir/puppet" ] do |t|
+    version_file = 'stagedir/puppet/lib/puppet.rb'
+    raise ArgumentError, "Environment PE_VERSION_STRING must be set." unless ENV['PE_VERSION_STRING']
+    patched = false
+    cp version_file, "#{version_file}.bak"
+
+    # Open the backup file for reading and the original file for writing.
+    File.open("#{version_file}.bak", 'r') do |infile|
+      File.open(version_file, "w") do |outfile|
+        # Make sure we don't translate LF to CRLF when building on windows
+        outfile.binmode
+        # Filter every line in the input file.
+        infile.each_line do |line|
+          re = /(PUPPETVERSION\s*=\s*)(['"])(.*?)(['"])/
+          new_line = line.gsub(re) do |match|
+            patched = true
+            "#{$1}#{$2}#{$3} (Puppet Enterprise #{ENV['PE_VERSION_STRING']})#{$2}"
+          end
+          outfile.print new_line
+        end
+      end
+    end
+    raise ArgumentError, "(#12975) Could not patch puppet.rb.  Check the regular expression around this line in the backtrace against stagedir/puppet/lib/puppet.rb" unless patched
   end
 
   # REVISIT - DRY THIS SECTION UP, lots of copy paste code here...

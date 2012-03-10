@@ -4,6 +4,22 @@ To get a shared filesystem:
 
     net use Z: "\\vmware-host\Shared Folders" /persistent:yes
 
+# Order Dependent Builds #
+
+This build system makes patches to the staged copy of puppet when building
+Puppet Enterprise.  It does not modify Puppet when building Puppet FOSS.  The
+primary modification is patching puppet.rb to have a different `PUPPETVERSION`
+constant.
+
+As a result, the builds are order dependent.  If Puppet FOSS is built after
+Puppet Enterprise the FOSS package may contain a patched puppet.rb file which
+is not desirable.
+
+    rake clean
+    rake windows:checkout[refs/tags/2.7.12,refs/tags/1.6.6]
+    rake windows:build
+    rake windows:buildenterprise PE_VERSION_STRING=2.5.0dev0
+
 # CRLF #
 
 In order to preserve CRLF line endings on batch files we recommend setting

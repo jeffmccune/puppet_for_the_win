@@ -107,7 +107,7 @@ and 1.6.x integration branches.
 
     rake clean
     rake "windows:clone[git://github.com/puppetlabs/puppet.git,git://github.com/puppetlabs/facter.git]"
-    rake "windows:checkout[origin/2.7.x,origin/1.6.x]"
+    rake "windows:checkout[refs/remotes/origin/2.7.x,refs/remotes/origin/1.6.x]"
     rake windows:build
 
 # User Facing Customizations #
