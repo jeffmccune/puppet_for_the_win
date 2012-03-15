@@ -88,7 +88,7 @@ def candle(wxs_file, flags=[])
   flags_string << " -dlicenseRtf=conf/windows/stage/misc/LICENSE.rtf"
   flags_string << " " << variable_define_flags
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
-    sh "candle -ext WiXUtilExtension -ext WixUIExtension -arch x86 #{flags_string} #{File.basename(wxs_file)}"
+    sh "candle -ext WiXUtilExtension -ext WixUIExtension -arch x86 #{flags_string} \"#{File.basename(wxs_file)}\""
   end
 end
 
@@ -109,7 +109,7 @@ end
 def unzip(zip_file, dir)
   Dir.chdir TOPDIR do
     Dir.chdir dir do
-      sh "7za -y x #{File.join(TOPDIR, zip_file)}"
+      sh "7za -y x \"#{File.join(TOPDIR, zip_file)}\""
     end
   end
 end
@@ -125,7 +125,7 @@ end
 def rezip(zip_file, dir)
   Dir.chdir TOPDIR do
     Dir.chdir File.dirname(dir) do
-      sh "7za -y a #{File.join(TOPDIR, zip_file)} #{File.basename(dir)}"
+      sh "7za -y a \"#{File.join(TOPDIR, zip_file)}\" #{File.basename(dir)}"
     end
   end
 end
