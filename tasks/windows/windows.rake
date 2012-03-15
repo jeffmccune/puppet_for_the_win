@@ -241,6 +241,35 @@ namespace :windows do
   # These directories should be unpacked into stagedir/sys
   SYSTOOLS = FEATURES.collect { |fn| File.join("stagedir", "sys", fn) }
 
+  # Sign all packages
+  desc "Sign all MSI packages"
+  task :sign => [ :sign_pe, :sign_foss ]
+
+  # Digitally sign the MSI package
+  desc "Sign the PE msi package"
+  # signtool.exe must be in your path for this task to work.  You'll need to
+  # install the Windows SDK to get signtool.exe.  puppetwinbuilder.zip's
+  # setup_env.bat should have added it to the PATH already.
+  task :sign_pe => [ "pkg" ] do |t|
+    Dir.chdir TOPDIR do
+      Dir.chdir "pkg" do
+        sh 'signtool sign /d "Puppet Enterprise" /du "http://www.puppetlabs.com" /n "Puppet Labs" /t "http://timestamp.verisign.com/scripts/timstamp.dll" puppetenterprise.msi'
+      end
+    end
+  end
+
+  desc "Sign the FOSS msi package"
+  # signtool.exe must be in your path for this task to work.  You'll need to
+  # install the Windows SDK to get signtool.exe.  puppetwinbuilder.zip's
+  # setup_env.bat should have added it to the PATH already.
+  task :sign_foss => [ "pkg" ] do |t|
+    Dir.chdir TOPDIR do
+      Dir.chdir "pkg" do
+        sh 'signtool sign /d "Puppet" /du "http://www.puppetlabs.com" /n "Puppet Labs" /t "http://timestamp.verisign.com/scripts/timstamp.dll" puppet.msi'
+      end
+    end
+  end
+
   # Update the ruby archive.  Helpful after updating Gems
   desc "Repack the zip archives"
   task :repack => ["stagedir/sys", "downloads"] do |t|
