@@ -88,7 +88,7 @@ def candle(wxs_file, flags=[])
   flags_string << " -dlicenseRtf=conf/windows/stage/misc/LICENSE.rtf"
   flags_string << " " << variable_define_flags
   Dir.chdir File.join(TOPDIR, File.dirname(wxs_file)) do
-    sh "candle -ext WiXUtilExtension -ext WixUIExtension -arch x86 #{flags_string} #{File.basename(wxs_file)}"
+    sh "candle -ext WiXUtilExtension -ext WixUIExtension -arch x86 #{flags_string} \"#{File.basename(wxs_file)}\""
   end
 end
 
@@ -109,7 +109,7 @@ end
 def unzip(zip_file, dir)
   Dir.chdir TOPDIR do
     Dir.chdir dir do
-      sh "7za -y x #{File.join(TOPDIR, zip_file)}"
+      sh "7za -y x \"#{File.join(TOPDIR, zip_file)}\""
     end
   end
 end
@@ -125,7 +125,7 @@ end
 def rezip(zip_file, dir)
   Dir.chdir TOPDIR do
     Dir.chdir File.dirname(dir) do
-      sh "7za -y a #{File.join(TOPDIR, zip_file)} #{File.basename(dir)}"
+      sh "7za -y a \"#{File.join(TOPDIR, zip_file)}\" #{File.basename(dir)}"
     end
   end
 end
@@ -240,6 +240,35 @@ namespace :windows do
   WIXOBJS_MIN = (WXSFILES + WXS_FRAGMENTS.find_all { |f| f =~ /misc|bin/ }).ext 'wixobj'
   # These directories should be unpacked into stagedir/sys
   SYSTOOLS = FEATURES.collect { |fn| File.join("stagedir", "sys", fn) }
+
+  # Sign all packages
+  desc "Sign all MSI packages"
+  task :sign => [ :sign_pe, :sign_foss ]
+
+  # Digitally sign the MSI package
+  desc "Sign the PE msi package"
+  # signtool.exe must be in your path for this task to work.  You'll need to
+  # install the Windows SDK to get signtool.exe.  puppetwinbuilder.zip's
+  # setup_env.bat should have added it to the PATH already.
+  task :sign_pe => [ "pkg" ] do |t|
+    Dir.chdir TOPDIR do
+      Dir.chdir "pkg" do
+        sh 'signtool sign /d "Puppet Enterprise" /du "http://www.puppetlabs.com" /n "Puppet Labs" /t "http://timestamp.verisign.com/scripts/timstamp.dll" puppetenterprise.msi'
+      end
+    end
+  end
+
+  desc "Sign the FOSS msi package"
+  # signtool.exe must be in your path for this task to work.  You'll need to
+  # install the Windows SDK to get signtool.exe.  puppetwinbuilder.zip's
+  # setup_env.bat should have added it to the PATH already.
+  task :sign_foss => [ "pkg" ] do |t|
+    Dir.chdir TOPDIR do
+      Dir.chdir "pkg" do
+        sh 'signtool sign /d "Puppet" /du "http://www.puppetlabs.com" /n "Puppet Labs" /t "http://timestamp.verisign.com/scripts/timstamp.dll" puppet.msi'
+      end
+    end
+  end
 
   # Update the ruby archive.  Helpful after updating Gems
   desc "Repack the zip archives"

@@ -209,4 +209,57 @@ I'm debugging using Cygwin Ruby with rubygems installed via `setup.rb`.  Here's 
 
     gem install ruby-debug --platform=mswin32
 
+# Signing the Packages #
+
+Digitally signing the MSI is important for release.  Windows will automatically
+verify the authenticity of our packages if they're signed and will present a
+warning to the user if they're not.
+
+Here's the less scary notification when installing a signed package:
+
+![User Account Control](http://dl.dropbox.com/u/17169007/img/Screen%20Shot%202012-03-14%20at%203.40.15%20PM.png)
+
+To digitally sign the packages, the [Puppet Labs Code Signing
+Certificate](https://groups.google.com/a/puppetlabs.com/group/tech/browse_thread/thread/3d85b1da489af092#)
+should be installed into the user store on the windows build host.  If Jenkins
+is being used to automate the package builds, then this certificate and private
+key should be installed using the same account the Jenkins agent is running as.
+
+There should only be one code signing certificate installed.  The `signtool`
+will automatically select the right certificate if there is only one of them
+installed.
+
+Double clicking on the PFX file will install the certificate properly.  I also
+recommend the certificate NOT be marked as exportable when installing it.
+
+Once the MSI packages have been built, they can be signed with the following task:
+
+    Z:\vagrant\win\puppetwinbuilder\src\puppet_for_the_win>rake windows:sign
+    signtool sign /d "Puppet Enterprise" /du "http://www.puppetlabs.com" /n "Puppet Labs" \
+      /t "http://timestamp.verisign.com/scripts/timstamp.dll" puppetenterprise.msi
+    Done Adding Additional Store
+    Successfully signed and timestamped: puppetenterprise.msi
+    signtool sign /d "Puppet" /du "http://www.puppetlabs.com" /n "Puppet Labs" \
+      /t "http://timestamp.verisign.com/scripts/timstamp.dll" puppet.msi
+    Done Adding Additional Store
+    Successfully signed and timestamped: puppet.msi
+
+The command the Rake task is executing will require HTTP Internet access to
+timestamp.verisign.com in order to get a digitally signed timestamp.
+
+SignTool
+========
+
+The [Sign
+Tool](http://msdn.microsoft.com/en-us/library/windows/desktop/aa387764.aspx) is
+distributed as part of the [Windows
+SDK](http://msdn.microsoft.com/en-us/windowsserver/bb980924.aspx)  You don't
+need to install the full SDK to get `signtool.exe`, only the "tools" component.
+The SDK requires the Microsoft .NET Framework 4 to be installed as well.
+
+The puppetwinbuilder.zip `setup_env.bat` should automatically add the SDK to
+the PATH.  If the SDK changes versions in the future (e.g. 7.2 is released),
+then the PATH environment variable may not be correct and you'll need to get
+signtool.exe in the path yourself or update the puppetwinbuilder.zip file.
+
 EOF
