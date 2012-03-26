@@ -194,6 +194,28 @@ settings in the GUI.  If you are running `puppetenterprise.msi` and you notice
 it's automatically filled in the value you previously used for Puppet, this is
 how it's getting that information.
 
+# Puppet Configuration Settings #
+
+The MSI package will configure the `archive_files` and `archive_file_server`
+settings for Puppet Enterprise.  These configuration settings enable `puppet
+inspect` to save files centrally on the Puppet Master to enable the diff view
+in the Puppet Enterprise Console.  These two settings are not set when
+installing the Puppet FOSS package to match the behavior of Puppet FOSS on
+other platforms.
+
+The Puppet Enterprise MSI package also configures `graph=true` to help
+visualize the configuration catalog.  This is not set for Puppet FOSS to be
+consistent with other platforms.
+
+    C:\ProgramData\PuppetLabs\puppet\etc>more puppet.conf
+    [main]
+    server=puppetmaster.vm
+    pluginsync=true
+    autoflush=true
+    archive_files=true
+    archive_file_server=puppetmaster.vm
+    graph=true
+
 # Troubleshooting #
 
 ## Missing .NET Framework ##
